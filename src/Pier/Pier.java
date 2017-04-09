@@ -12,7 +12,7 @@ import Ship.Ship;
 public class Pier extends Thread
 {
     private Port  parentPort;
-    private State state;
+    private PierState state;
     private Ship  ship;
 
     private TimeCost timeCost;
@@ -20,19 +20,18 @@ public class Pier extends Thread
     public Pier()
     {
         parentPort = null;
-        state = State.BLOCKED;
+        state = PierState.BLOCKED;
         ship = null;
     }
 
     public Pier(Port parentPort)
     {
         this.parentPort = parentPort;
-        state = State.WAITING;
+        state = PierState.WAITING;
         ship = null;
     }
 
-    @Override
-    public State getState()
+    public PierState getPierState()
     {
         return state;
     }
@@ -47,7 +46,7 @@ public class Pier extends Thread
         this.parentPort = parentPort;
     }
 
-    public void setState(Pier.State state)
+    public void setPierState(PierState state)
     {
         this.state = state;
     }
