@@ -11,8 +11,21 @@ import Ship.Ship;
  */
 public class Pier
 {
-    private Port  parrentPort;
+    private Port  parentPort;
     private State state;
     private Ship  ship;
 
+    public Pier()
+    {
+        parentPort = null;
+        state = State.BLOCKED;
+        ship = null;
+    }
+
+    public Pier(Port parentPort)
+    {
+        this.parentPort = parentPort;
+        state = State.WAITING;
+        ship = null;
+    }
 }
