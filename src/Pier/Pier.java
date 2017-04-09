@@ -16,6 +16,7 @@ public class Pier extends Thread
     private Ship  ship;
 
     private TimeCost timeCost;
+    private int     steepTime;
 
     public Pier()
     {
@@ -60,30 +61,26 @@ public class Pier extends Thread
      * This method are designed to processing currentShip
      * and update progressBar state
      */
-    public void process() // TODO: 10.04.2017 Доделать  
+    public void process()
     {
-        int fullTime = calculateTime();
-        int steep;
+        // TODO: 10.04.2017 нужно добавить проверку на наличие на складе необходимого количества товаров для запроса загрузки
 
-        switch(ship.getCargo())
+        if(ship.isLoadRequest())
         {
-            case OIL:
-            {
-                steep = timeCost.FOR_OIL;
-            }
-            case GAS:
-            {
-                steep = timeCost.FOR_GAS;
-            }
-            case FOOD:
-            {
-                steep = timeCost.FOR_FOOD;
-            }
-            case CARS:
-            {
-                steep =  timeCost.FOR_CARS;
-            }
+            state = PierState.LOADING;
         }
+        else state = PierState.UNLOADING;
+
+
+        int fullTime = calculateTime();
+
+        for(int time = 0; time <= fullTime; ++time)
+        {
+            //sleep(steepTime); // TODO: 10.04.2017 отлавливать этот эксепшн
+            // TODO: 10.04.2017 Забацать обновление прогресс бара
+        }
+
+        state = PierState.WAITING;
     }
 
 
