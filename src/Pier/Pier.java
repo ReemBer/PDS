@@ -9,7 +9,7 @@ import Ship.Ship;
  * This class used by the Port clas to communicate between
  * Ship and Port
  */
-public class Pier
+public class Pier extends Thread
 {
     private Port  parentPort;
     private State state;
@@ -27,5 +27,31 @@ public class Pier
         this.parentPort = parentPort;
         state = State.WAITING;
         ship = null;
+    }
+
+    @Override
+    public State getState()
+    {
+        return state;
+    }
+
+    public Ship getShip()
+    {
+        return ship;
+    }
+
+    public void setParentPort(Port parentPort)
+    {
+        this.parentPort = parentPort;
+    }
+
+    public void setState(Pier.State state)
+    {
+        this.state = state;
+    }
+
+    public void setShip(Ship ship)
+    {
+        this.ship = ship;
     }
 }
