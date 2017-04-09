@@ -6,4 +6,4 @@ package Pier;
  * This Enumeration used by the Pier class to saving
  * current satate of current Pier
  */
-public enum State {LOADING, UNLOADING, WAITING, BLOCKED}
+public enum PierState {LOADING, UNLOADING, WAITING, BLOCKED}
