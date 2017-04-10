@@ -1,5 +1,7 @@
 package Ship;
 
+import Port.Port;
+
 import java.io.*;
 import java.util.Random;
 import java.util.Vector;
@@ -22,6 +24,8 @@ public class ShipGenerator extends Thread
     private final int CARGO_UPPER_BOUND = 4;
     private final int CARGO_LOWER_BOUND = 1;
 
+    private Port parentPort;
+
     {
         DEFAULT_SHIP_NAMES = new String[]{"Pobeda", "Titanic", "Costa Concordia", "Admiral", "Mermaid"};
     }
@@ -29,10 +33,11 @@ public class ShipGenerator extends Thread
     private String[] shipNames;
     private Random  randomizer;
 
-    public ShipGenerator()
+    public ShipGenerator(Port parentPort)
     {
         try
         {
+            this.parentPort = parentPort;
             randomizer = new Random(0L);
             Vector<String> names = readNames(DEFAULT_SHIP_NAMES_FILE);
             shipNames = names.toArray(new String[names.size()]);
@@ -44,10 +49,11 @@ public class ShipGenerator extends Thread
         }
     }
 
-    public ShipGenerator(String fileName)
+    public ShipGenerator(Port parentPort, String fileName)
     {
         try
         {
+            this.parentPort = parentPort;
             randomizer = new Random(0L);
             Vector<String> names = readNames(fileName);
             shipNames = names.toArray(new String[names.size()]);
