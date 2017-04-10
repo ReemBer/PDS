@@ -58,6 +58,25 @@ public class Pier extends Thread
     }
 
     /**
+     * The main method to process requests.
+     */
+    public void run()
+    {
+        try
+        {
+            while(true)
+            {
+                ship = parentPort.takeCurrentRequest();
+                process();
+            }
+        }
+        catch (InterruptedException ex)
+        {
+            // TODO: 10.04.2017 Придумать обработку такого рода исключений
+        }
+    }
+
+    /**
      * This method are designed to processing currentShip
      * and update progressBar state
      */
