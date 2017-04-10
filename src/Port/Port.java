@@ -18,10 +18,14 @@ public class Port
     private ArrayBlockingQueue<Ship> shipRequests;
     private Pier pier[];
 
+    private boolean processing;
+    private boolean suspended;
 
     public Port()
     {
-        warehouse = new Warehouse();
+        processing = false;
+        suspended  = false;
+        warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
         pier = new Pier[COUNT_OF_PIERS];
     }
@@ -31,9 +35,43 @@ public class Port
      */
     public void getStarted()
     {
-        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        if(!processing)
         {
-            pier[i].start();
+            for (int i = 0; i < COUNT_OF_PIERS; ++i)
+            {
+                pier[i].start();
+            }
+            processing = true;
+        }
+    }
+
+    /**
+     * Used to paused working of all the Piers
+     */
+    public void suspendProcess()
+    {
+        if(processing && !suspended)
+        {
+            suspended = true;
+            for (int i = 0; i < COUNT_OF_PIERS; ++i)
+            {
+                pier[i].suspend();
+            }
+        }
+    }
+
+    /**
+     * Used to resume working of all the Piers
+     */
+    public void resumeProcess()
+    {
+        if(processing && suspended)
+        {
+            suspended = false;
+            for (int i = 0; i < COUNT_OF_PIERS; ++i)
+            {
+                pier[i].resume();
+            }
         }
     }
 
