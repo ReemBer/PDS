@@ -1,8 +1,7 @@
 package Port;
 
 import Pier.Pier;
-import Ship.Cargo;
-import Ship.Ship;
+import Ship.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -18,6 +17,11 @@ public class Port
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
     private Pier pier[];
+    private ShipGenerator shipGenerator;
+
+    {
+        shipGenerator = new ShipGenerator(this);
+    }
 
     private boolean processing;
     private boolean suspended;
@@ -26,6 +30,7 @@ public class Port
     {
         processing = false;
         suspended  = false;
+
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
         pier = new Pier[COUNT_OF_PIERS];
