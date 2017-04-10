@@ -23,6 +23,7 @@ public class ShipGenerator extends Thread
     private final int LOWER_BOUND = 10;
     private final int CARGO_UPPER_BOUND = 4;
     private final int CARGO_LOWER_BOUND = 1;
+    private final int SLEEP_TIME = 1000;
 
     private Port parentPort;
 
@@ -73,6 +74,7 @@ public class ShipGenerator extends Thread
             while (true)
             {
                 parentPort.putCurrentRequest(generateNewShip());
+                sleep(SLEEP_TIME);
             }
         } catch (InterruptedException ex)
         {
