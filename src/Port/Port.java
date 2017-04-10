@@ -3,7 +3,6 @@ package Port;
 import Pier.Pier;
 import Ship.Cargo;
 import Ship.Ship;
-
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -12,17 +11,20 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Port
 {
-    private final int COUNT_OF_PIERS = 5;
+    private final int COUNT_OF_PIERS =  5;
+    private final int QUEUE_SIZE     = 20;
 
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
-
     private Pier pier[];
 
+
+    public Port()
     {
+        warehouse = new Warehouse();
+        shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
         pier = new Pier[COUNT_OF_PIERS];
     }
-
     /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
