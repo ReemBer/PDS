@@ -19,10 +19,6 @@ public class Port
     private Pier pier[];
     private ShipGenerator shipGenerator;
 
-    {
-        shipGenerator = new ShipGenerator(this);
-    }
-
     private boolean processing;
     private boolean suspended;
 
@@ -34,6 +30,12 @@ public class Port
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
         pier = new Pier[COUNT_OF_PIERS];
+        shipGenerator = new ShipGenerator(this);
+
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i] = new Pier(this);
+        }
     }
 
     /**
