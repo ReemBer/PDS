@@ -6,7 +6,8 @@ import Ship.Ship;
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
  * @author Tarasevich Vladislav
- * This class used by the Port clas to communicate between
+ * @version 1.0
+ * This class used by the Port class to communicate between
  * Ship and Port
  */
 public class Pier extends Thread
@@ -73,6 +74,7 @@ public class Pier extends Thread
         catch (InterruptedException ex)
         {
             // TODO: 10.04.2017 Придумать обработку такого рода исключений
+            // TODO: 10.04.2017 Добавить логи
         }
     }
 
@@ -80,15 +82,15 @@ public class Pier extends Thread
      * This method are designed to processing currentShip
      * and update progressBar state
      */
-    private void process()
+    private void process() throws InterruptedException
     {
         if(ship.isLoadRequest())
         {
             state = PierState.LOADING;
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
-                // TODO: 10.04.2017 добавить сигнал о б отклонении текущего запроса
-                // sleep(10*STEEP_TIME); // TODO: 10.04.2017 отлавливать эксепшн
+                // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
+                sleep(100*STEEP_TIME);
             }
         }
         else
@@ -102,13 +104,12 @@ public class Pier extends Thread
 
         for(int time = 0; time <= fullTime; ++time)
         {
-            //sleep(STEEP_TIME); // TODO: 10.04.2017 отлавливать этот эксепшн
+            sleep(STEEP_TIME);
             // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
 
         state = PierState.WAITING;
     }
-
 
     /**
      * This method used by process method to get full processing time
