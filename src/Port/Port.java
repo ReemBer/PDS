@@ -8,7 +8,7 @@ import Ship.Cargo;
  */
 public class Port
 {
-    Warehouse warehouse;
+    private Warehouse warehouse;
 
     /**
      * This method used to trying to take some cargo from the warehouse
