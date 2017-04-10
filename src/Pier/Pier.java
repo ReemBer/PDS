@@ -63,13 +63,20 @@ public class Pier extends Thread
      */
     public void process()
     {
-        // TODO: 10.04.2017 нужно добавить проверку на наличие на складе необходимого количества товаров для запроса загрузки
-
         if(ship.isLoadRequest())
         {
             state = PierState.LOADING;
+            if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
+            {
+                // TODO: 10.04.2017 добавить сигнал о б отклонении текущего запроса
+                // sleep(10*STEEP_TIME); // TODO: 10.04.2017 отлавливать эксепшн
+            }
         }
-        else state = PierState.UNLOADING;
+        else
+        {
+            state = PierState.UNLOADING;
+            parentPort.putCargo(ship.getCargo(), ship.getCount());
+        }
 
 
         int fullTime = calculateTime();
