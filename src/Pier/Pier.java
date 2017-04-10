@@ -80,7 +80,7 @@ public class Pier extends Thread
      * This method are designed to processing currentShip
      * and update progressBar state
      */
-    public void process()
+    private void process()
     {
         if(ship.isLoadRequest())
         {
