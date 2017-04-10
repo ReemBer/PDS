@@ -78,7 +78,7 @@ public class ShipGenerator extends Thread
             case 1: // OIL selected
             {
                 return Cargo.OIL;
-            }выбран
+            }
             case 2: // GAS selected
             {
                 return  Cargo.GAS;
@@ -90,6 +90,10 @@ public class ShipGenerator extends Thread
             case 4: // CARS selected
             {
                 return Cargo.CARS;
+            }
+            default:
+            {
+                return Cargo.OIL;
             }
         }
     }
