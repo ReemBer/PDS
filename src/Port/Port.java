@@ -8,6 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
  * This class used to store the state of the warehouse and work with ships through the piers
+ * @version 1.0
  */
 public class Port
 {
@@ -81,7 +82,7 @@ public class Port
      * @param count count of type of cargo, needed to take
      * @return true, if you can take such count of such cargo
      */
-    public boolean takeCargo(Cargo cargo, int count)
+    public synchronized boolean takeCargo(Cargo cargo, int count)
     {
         return warehouse.takeCargo(cargo, count);
     }
@@ -91,7 +92,7 @@ public class Port
      * @param cargo type of cargo, wanted to put
      * @param count count of type of cargo, wanted to put
      */
-    public void putCargo(Cargo cargo, int count)
+    public synchronized void putCargo(Cargo cargo, int count)
     {
         warehouse.putCargo(cargo, count);
     }
@@ -101,7 +102,7 @@ public class Port
      * @return first ship Request in the queue of ship requests.
      * @throws InterruptedException
      */
-    public Ship takeCurrentRequest() throws InterruptedException
+    public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
         return shipRequests.take();
     }
@@ -111,7 +112,7 @@ public class Port
      * @param currentShip putting to the queue of requests.
      * @throws InterruptedException
      */
-    public void putCurrentRequest(Ship currentShip) throws InterruptedException
+    public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
     }
