@@ -2,6 +2,9 @@ package Port;
 
 import Pier.Pier;
 import Ship.Cargo;
+import Ship.Ship;
+
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
@@ -12,6 +15,7 @@ public class Port
     private final int COUNT_OF_PIERS = 5;
 
     private Warehouse warehouse;
+    private ArrayBlockingQueue<Ship> shipRequests;
 
     private Pier pier[];
 
@@ -38,5 +42,25 @@ public class Port
     public void putCargo(Cargo cargo, int count)
     {
         warehouse.putCargo(cargo, count);
+    }
+
+    /**
+     * This method used to take first ship request in the queue.
+     * @return first ship Request in the queue of ship requests.
+     * @throws InterruptedException
+     */
+    public Ship takeCurrentRequest() throws InterruptedException
+    {
+        return shipRequests.take();
+    }
+
+    /**
+     * This method used to putting current request to the queue of requests.
+     * @param currentShip putting to the queue of requests.
+     * @throws InterruptedException
+     */
+    public void putCurrentRequest(Ship currentShip) throws InterruptedException
+    {
+        shipRequests.put(currentShip);
     }
 }
