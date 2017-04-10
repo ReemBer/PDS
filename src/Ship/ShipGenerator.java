@@ -65,6 +65,21 @@ public class ShipGenerator extends Thread
         }
     }
 
+    @Override
+    public void run()
+    {
+        try
+        {
+            while (true)
+            {
+                parentPort.putCurrentRequest(generateNewShip());
+            }
+        } catch (InterruptedException ex)
+        {
+            // TODO: 11.04.2017 придумать как обработать такого рода исключение
+        }
+    }
+
     public Ship generateNewShip()
     {
         return new Ship(getRandomName(), getRandomCargo(), getRandomCount(), getRandomRequest());
