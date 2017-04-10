@@ -79,8 +79,8 @@ public class ShipGenerator extends Thread
             // TODO: 11.04.2017 придумать как обработать такого рода исключение
         }
     }
-
-    public Ship generateNewShip()
+    
+    private Ship generateNewShip()
     {
         return new Ship(getRandomName(), getRandomCargo(), getRandomCount(), getRandomRequest());
     }
