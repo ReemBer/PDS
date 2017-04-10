@@ -11,12 +11,12 @@ import Ship.Ship;
  */
 public class Pier extends Thread
 {
+    private final int STEEP_TIME = 1000;
     private Port  parentPort;
     private PierState state;
-    private Ship  ship;
 
+    private Ship  ship;
     private TimeCost timeCost;
-    private int     steepTime;
 
     public Pier()
     {
@@ -76,7 +76,7 @@ public class Pier extends Thread
 
         for(int time = 0; time <= fullTime; ++time)
         {
-            //sleep(steepTime); // TODO: 10.04.2017 отлавливать этот эксепшн
+            //sleep(STEEP_TIME); // TODO: 10.04.2017 отлавливать этот эксепшн
             // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
 
