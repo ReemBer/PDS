@@ -25,6 +25,18 @@ public class Port
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
         pier = new Pier[COUNT_OF_PIERS];
     }
+
+    /**
+     * This method used to get started Working
+     */
+    public void getStarted()
+    {
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i].start();
+        }
+    }
+
     /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
