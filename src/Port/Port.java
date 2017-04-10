@@ -1,5 +1,6 @@
 package Port;
 
+import Pier.Pier;
 import Ship.Cargo;
 
 /**
@@ -8,7 +9,15 @@ import Ship.Cargo;
  */
 public class Port
 {
+    private final int COUNT_OF_PIERS = 5;
+
     private Warehouse warehouse;
+
+    private Pier pier[];
+
+    {
+        pier = new Pier[COUNT_OF_PIERS];
+    }
 
     /**
      * This method used to trying to take some cargo from the warehouse
