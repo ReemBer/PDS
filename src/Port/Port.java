@@ -41,10 +41,11 @@ public class Port
     /**
      * This method used to get started Working
      */
-    public void getStarted()
+    public synchronized void getStarted()
     {
         if(!processing)
         {
+            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
@@ -56,11 +57,12 @@ public class Port
     /**
      * Used to paused working of all the Piers
      */
-    public void suspendProcess()
+    public synchronized void suspendProcess()
     {
         if(processing && !suspended)
         {
             suspended = true;
+            shipGenerator.suspend();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].suspend();
@@ -71,11 +73,12 @@ public class Port
     /**
      * Used to resume working of all the Piers
      */
-    public void resumeProcess()
+    public synchronized void resumeProcess()
     {
         if(processing && suspended)
         {
             suspended = false;
+            shipGenerator.resume();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].resume();
