@@ -39,6 +39,15 @@ public class Port
     }
 
     /**
+     * method, used to view current state of queue of requests;
+     * @return array of ships (requests)
+     */
+    public Ship[] getShipRequests()
+    {
+        return shipRequests.toArray(new Ship[shipRequests.size()]);
+    }
+
+    /**
      * This method used to get started Working
      */
     public synchronized void getStarted()
