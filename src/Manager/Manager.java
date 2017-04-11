@@ -21,11 +21,51 @@ public class Manager
 
     public Manager()
     {
+        indexOfCurrentPort = -1;
         port = new Port[COUNT_OF_PORTS];
         for(int i = 0; i < COUNT_OF_PORTS; ++i)
         {
             port[i] = new Port();
         }
     }
-    
+
+    /**
+     * This method used to set new index of the working port
+     * @param index -- index of the working port.
+     * @throws IndexOutOfBoundsException
+     */
+    public void setIndexOfWorkingPort(int index) throws IndexOutOfBoundsException
+    {
+        if(index < 0 || index >= COUNT_OF_PORTS) throw new IndexOutOfBoundsException();
+
+        for(int i = 0; i < COUNT_OF_PORTS; ++i)
+        {
+            port[i].suspendProcess();
+        }
+        indexOfCurrentPort = index;
+    }
+
+    /**
+     * This method are used to start working of the current port.
+     */
+    public void getStrated()
+    {
+        port[indexOfCurrentPort].getStarted();
+    }
+
+    /**
+     * method, used to suspend process of current Port
+     */
+    public void stopWorking()
+    {
+       port[indexOfCurrentPort].suspendProcess();
+    }
+
+    /**
+     * method, used to resume process of current Port
+     */
+    public void resumeWorking()
+    {
+        port[indexOfCurrentPort].resumeProcess();
+    }
 }
