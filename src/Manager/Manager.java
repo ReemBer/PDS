@@ -2,6 +2,8 @@ package Manager;
 
 import GUI.MainWindow;
 import Port.Port;
+import Ship.*;
+import javafx.collections.ObservableList;
 
 /**
  * Created by Tarasevich Vladislav on 11.04.2017.
@@ -67,5 +69,10 @@ public class Manager
     public void resumeWorking()
     {
         port[indexOfCurrentPort].resumeProcess();
+    }
+
+    public ObservableList<Ship> getShipRequestData()
+    {
+        return port[indexOfCurrentPort].getShipRequestsData();
     }
 }
