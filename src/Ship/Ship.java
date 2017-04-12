@@ -32,6 +32,33 @@ public class Ship
         isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
     }
 
+    /**
+     * Creating ship and set name only
+     * @param name
+     */
+    public Ship(String name)
+    {
+        this.name  = new SimpleStringProperty(name);
+        cargo = new SimpleObjectProperty<Cargo>(DEFAULT_CARGO);
+        count = new SimpleIntegerProperty(DEFAULT_COUNT);
+        isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
+    }
+
+    /**
+     * Creating new ship. All field will be initialized, except "isLoadRequest"
+     * isLoadRequest initializing by default (false).
+     * @param name
+     * @param cargo
+     * @param count
+     */
+    public Ship(String name, Cargo cargo, int count)
+    {
+        this.name  = new SimpleStringProperty(name);
+        this.cargo = new SimpleObjectProperty<Cargo>(cargo);
+        this.count = new SimpleIntegerProperty(count);
+        isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
+    }
+
     public Ship(String name, Cargo cargo, int count, boolean isLoadRequest)
     {
         this.name = new SimpleStringProperty(name);
