@@ -2,6 +2,9 @@ package Port;
 
 import Pier.Pier;
 import Ship.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -36,6 +39,13 @@ public class Port
         {
             pier[i] = new Pier(this);
         }
+    }
+
+    public ObservableList<Ship> getShipRequestsData()
+    {
+        ObservableList<Ship> result = FXCollections.observableArrayList();
+        result.addAll(shipRequests);
+        return result;
     }
 
     /**
