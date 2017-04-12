@@ -2,7 +2,6 @@ package Manager;
 
 import GUI.MainWindow;
 import Port.Port;
-import Ship.*;
 
 /**
  * Created by Tarasevich Vladislav on 11.04.2017.
@@ -68,56 +67,5 @@ public class Manager
     public void resumeWorking()
     {
         port[indexOfCurrentPort].resumeProcess();
-    }
-
-    /**
-     * This method used to convert Ship requests to Array of Array of strings
-     * @return array of array of string
-     */
-    public String[][] getShipRequests()
-    {
-        Ship[] currentState = port[indexOfCurrentPort].getShipRequests();
-
-        String[][] res = new String[currentState.length][4];
-
-        for(int i = 0; i < currentState.length; ++i)
-        {
-            String name          = currentState[i].getName();
-            String isLoadRequest = Boolean.toString(currentState[i].isLoadRequest());
-            String count         = Integer.toString(currentState[i].getCount());
-            String cargo;
-
-            switch(currentState[i].getCargo())
-            {
-                case GAS:
-                {
-                    cargo = new String("GAS");
-                    break;
-                }
-                case OIL:
-                {
-                    cargo = new String("OIL");
-                    break;
-                }
-                case CARS:
-                {
-                    cargo = new String("CARS");
-                    break;
-                }
-                case FOOD:
-                {
-                    cargo = new String("FOOD");
-                    break;
-                }
-                default:
-                {
-                    cargo = new String("OIL");
-                }
-            }
-
-            String[] cur = new String[]{name, cargo, count, isLoadRequest};
-            res[i] = cur;
-        }
-        return res;
     }
 }
