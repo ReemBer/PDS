@@ -122,4 +122,13 @@ public class Ship
         this.isLoadRequest.set(isLoadRequest);
     }
 
+    public void setLoadRequest(boolean loadRequest)
+    {
+        this.isLoadRequest.set(loadRequest);
+    }
+
+    public boolean LoadRequest()
+    {
+        return isLoadRequest.get();
+    }
 }
