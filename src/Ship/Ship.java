@@ -60,31 +60,9 @@ public class Ship
         return cargo;
     }
 
-    public String getCargo()
+    public Cargo getCargo()
     {
-        switch(cargo.get())
-        {
-            case GAS:
-            {
-                return "Gas";
-            }
-            case OIL:
-            {
-                return "Oil";
-            }
-            case FOOD:
-            {
-                return "Food";
-            }
-            case CARS:
-            {
-                return "Cars";
-            }
-            default:
-            {
-                return "Gas";
-            }
-        }
+        return cargo.get();
     }
 
     public void setCargo(Cargo cargo)
@@ -127,7 +105,7 @@ public class Ship
         this.isLoadRequest.set(loadRequest);
     }
 
-    public boolean LoadRequest()
+    public boolean isLoadRequest()
     {
         return isLoadRequest.get();
     }
