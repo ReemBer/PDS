@@ -29,5 +29,18 @@ public class ShipRequestsOverviewController
 
     private Manager mainProgramObject;
 
+    public ShipRequestsOverviewController()
+    {
+
+    }
+
+    @FXML
+    private void initialize()
+    {
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        cargoColumn.setCellValueFactory(cellData -> cellData.getValue().cargoProperty());
+        countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
+        isLoadRequestColumn.setCellValueFactory(cellData -> cellData.getValue().isLoadRequestProperty());
+    }
     
 }
