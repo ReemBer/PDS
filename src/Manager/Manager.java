@@ -71,7 +71,7 @@ public class Manager
         port[indexOfCurrentPort].resumeProcess();
     }
 
-    public ObservableList<Ship> getShipRequestData()
+    public ObservableList<Ship> getShipRequestsData()
     {
         return port[indexOfCurrentPort].getShipRequestsData();
     }
