@@ -42,5 +42,11 @@ public class ShipRequestsOverviewController
         countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
         isLoadRequestColumn.setCellValueFactory(cellData -> cellData.getValue().isLoadRequestProperty());
     }
-    
+
+    public void setMainProgramObject(Manager mainProgramObject)
+    {
+        this.mainProgramObject = mainProgramObject;
+
+        shipRequestTable.setItems(mainProgramObject.getShipRequestsData());
+    }
 }
