@@ -2,11 +2,8 @@ package Manager;
 
 import GUI.MainWindow;
 import Port.Port;
-<<<<<<< .merge_file_a03668
-=======
 import Ship.*;
 import javafx.collections.ObservableList;
->>>>>>> .merge_file_a07736
 
 /**
  * Created by Tarasevich Vladislav on 11.04.2017.
