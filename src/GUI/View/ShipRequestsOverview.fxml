@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.View.ShipRequestsOverviewController">
+    <children>
+        <FlowPane>
+          <Separator orientation="VERTICAL" visible="false" prefHeight="45.0" prefWidth="0.0" />
+          <GridPane alignment="CENTER" hgap="20.0" prefWidth="527.0">
+            <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints />
+            </rowConstraints>
+             <children>
+                <FlowPane alignment="CENTER" GridPane.rowIndex="2">
+                   <children>
+                         <Button prefHeight="25.0" prefWidth="100.0" text="Start" />
+                   </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                   <children>
+                         <Button alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="Stop" />
+                   </children>
+                </FlowPane>
+                <FlowPane alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                   <children>
+                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="manual add" />
+                   </children>
+                </FlowPane>
+             </children>
+          </GridPane>
+      </FlowPane>
+        <FlowPane alignment="BASELINE_CENTER">
+         <Separator orientation="VERTICAL" prefHeight="50.0" prefWidth="34.0" visible="false" />
+            <Label prefHeight="17.0" prefWidth="137.0" text="Requests:" textAlignment="CENTER">
+                <font>
+                <Font name="Verdana" size="24.0" />
+                </font>
+            </Label>
+        </FlowPane>
+        <!-- Описание таблицы для вывода запросов от кораблей -->
+        <TableView fx:id="shipRequestTable" layoutX="12.0" layoutY="62.0" prefHeight="324.0" prefWidth="600">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+                <TableColumn fx:id="cargoColumn" prefWidth="150.0" text="Type of cargo" />
+                <TableColumn fx:id="countColumn" prefWidth="50.0" text="Count" />
+                <TableColumn fx:id="isLoadRequestColumn" prefWidth="100.0" text="is load request?" />
+            </columns>
+        </TableView>
+        <FlowPane alignment="BOTTOM_RIGHT">
+         <children>
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Back" />
+            <Separator orientation="VERTICAL" prefHeight="88.0" prefWidth="30.0" visible="false" />
+         </children>
+      </FlowPane>
+    </children>
+</VBox>
