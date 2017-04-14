@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.View.ShipRequestsOverviewController;
 import Manager.Manager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sun.applet.Main;
 
@@ -20,14 +22,9 @@ import java.io.IOException;
  */
 public class MainWindow extends Application
 {
+    private VBox rootLayout;
     private Stage primaryStage;
-    private AnchorPane rootLayout;
-    private Manager mainPrgramObject;
-
-    //public MainWindow(Manager mainProgramObject)
-    //{
-    //    this.mainProgramObject = mainProgramObject;
-    //}
+    private Manager manager;
 
     @Override
     public void start(Stage primaryStage)
@@ -36,15 +33,19 @@ public class MainWindow extends Application
         this.primaryStage.setTitle("Port Dispatch System");
 
         initRootLayout();
+
+        showShipRequestsOverview();
     }
 
     public void initRootLayout()
     {
         try
         {
-            Parent root = FXMLLoader.load(getClass().getResource("View/ShipRequestsOverview.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainWindow.class.getResource("View/ShipRequestsOverview.fxml"));
+            rootLayout = loader.load();
+            primaryStage.setScene(new Scene(rootLayout));
 
-            primaryStage.setScene(new Scene(root));
             primaryStage.show();
         }
         catch (IOException e)
@@ -53,19 +54,28 @@ public class MainWindow extends Application
         }
     }
 
-//    public void showShipRequestsOverview()
-//    {
-//        try
-//        {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(MainWindow.class.getResource("View/ShipRequestsOverview.fxml"));
-//            AnchorPane personOverview = (AnchorPane) loader.load();
-//
-//            rootLayout.add(personOverview);
-//        }
-//        catch(IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
+    public void showShipRequestsOverview()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainWindow.class.getResource("View/ShipRequestsOverview.fxml"));
+
+            rootLayout = loader.load();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public Stage getPrimaryStage()
+    {
+        return primaryStage;
+    }
+
+    public static void main(String args[])
+    {
+        launch(args);
+    }
 }

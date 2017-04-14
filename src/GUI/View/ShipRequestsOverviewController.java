@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.Observable;
+
 /**
  * Created by Tarasevich Vladislav on 12.04.2017.
  * @author name  : Tarasevich vladislav
@@ -33,13 +35,14 @@ public class ShipRequestsOverviewController
 
     public ShipRequestsOverviewController()
     {
-
+        mainProgramObject = new Manager();
+        mainProgramObject.setIndexOfWorkingPort(0);
     }
 
     @FXML
     private void initialize()
     {
-        test();
+        setShipRequestTable();
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         cargoColumn.setCellValueFactory(cellData -> cellData.getValue().cargoProperty());
@@ -47,19 +50,22 @@ public class ShipRequestsOverviewController
         isLoadRequestColumn.setCellValueFactory(cellData -> cellData.getValue().isLoadRequestProperty());
     }
 
-    private void test()
-    {
-        ObservableList<Ship> t = FXCollections.observableArrayList();
-        t.add(new Ship());
-        t.add(new Ship("IGOR", Cargo.GAS, 100, true));
-
-        shipRequestTable.setItems(t);
-    }
-
     public void setMainProgramObject(Manager mainProgramObject)
     {
         this.mainProgramObject = mainProgramObject;
+    }
 
+    public void setShipRequestTable()
+    {
+        mainProgramObject.getStarted();
+
+//        ObservableList<Ship> data = FXCollections.observableArrayList();
+//        for(int i = 0; i < 10; ++i)
+//        {
+//            data.add(new Ship());
+//        }
+//
+//        shipRequestTable.setItems(data);
         shipRequestTable.setItems(mainProgramObject.getShipRequestsData());
     }
 }
