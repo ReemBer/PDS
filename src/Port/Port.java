@@ -64,11 +64,11 @@ public class Port
     {
         if(!processing)
         {
-            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
+            shipGenerator.start();
             processing = true;
         }
     }
@@ -102,6 +102,18 @@ public class Port
             {
                 pier[i].resume();
             }
+        }
+    }
+
+    /**
+     * Used for stop processing
+     */
+    public synchronized void stopProcess()
+    {
+        shipGenerator.stop();
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i].stop();
         }
     }
 
