@@ -50,7 +50,7 @@ public class Manager
     /**
      * This method are used to start working of the current port.
      */
-    public void getStrated()
+    public void getStarted()
     {
         port[indexOfCurrentPort].getStarted();
     }
