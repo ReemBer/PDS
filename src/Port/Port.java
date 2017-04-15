@@ -19,7 +19,7 @@ public class Port
 
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
-    private ObservableList<Ship> shiRequestsLists = FXCollections.observableArrayList();
+    private ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
     private Pier pier[];
     private ShipGenerator shipGenerator;
 
@@ -33,7 +33,7 @@ public class Port
 
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
-        shiRequestsLists.addAll(shipRequests);
+        shipRequestsList.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
 
@@ -45,7 +45,7 @@ public class Port
 
     public ObservableList<Ship> getShipRequestsData()
     {
-        return shiRequestsLists;
+        return shipRequestsList;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Port
      */
     public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
-        shiRequestsLists.remove(0);
+        shipRequestsList.remove(0);
         return shipRequests.take();
     }
 
@@ -157,6 +157,6 @@ public class Port
     public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
-        shiRequestsLists.add(currentShip);
+        shipRequestsList.add(currentShip);
     }
 }
