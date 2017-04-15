@@ -89,13 +89,13 @@ public class ShipGenerator extends Thread
 
     private String getRandomName()
     {
-        int choose = randomizer.nextInt()%(shipNames.length);
+        int choose = Math.abs(randomizer.nextInt())%(shipNames.length);
         return shipNames[choose];
     }
 
     private Cargo getRandomCargo()
     {
-        int choose = (randomizer.nextInt()%(CARGO_UPPER_BOUND - CARGO_LOWER_BOUND)) + CARGO_LOWER_BOUND;
+        int choose = (Math.abs(randomizer.nextInt())%(CARGO_UPPER_BOUND - CARGO_LOWER_BOUND)) + CARGO_LOWER_BOUND;
         switch (choose)
         {
             case 1: // OIL selected
@@ -123,7 +123,7 @@ public class ShipGenerator extends Thread
 
     private int getRandomCount()
     {
-        return ((randomizer.nextInt()%UPPER_BOUND) + LOWER_BOUND);
+        return ((Math.abs(randomizer.nextInt())%UPPER_BOUND) + LOWER_BOUND);
     }
 
     private boolean getRandomRequest()
