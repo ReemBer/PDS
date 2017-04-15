@@ -145,8 +145,11 @@ public class Port
      */
     public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
+        // Данная расстановка необходима для того, чтобы потоки
+        // Не пытались вытащить из ObservableList раньше, чем из очереди.
+        Ship result = shipRequests.take();
         shipRequestsList.remove(0);
-        return shipRequests.take();
+        return result;
     }
 
     /**
@@ -156,7 +159,7 @@ public class Port
      */
     public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
-        shipRequests.put(currentShip);
         shipRequestsList.add(currentShip);
+        shipRequests.put(currentShip);
     }
 }
