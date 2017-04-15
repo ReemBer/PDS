@@ -9,8 +9,8 @@ package Pier;
 
 public class TimeCost
 {
-    public final int FOR_FOOD = 5;
-    public final int FOR_CARS = 8;
-    public final int FOR_OIL = 20;
-    public final int FOR_GAS = 30;
+    public final int FOR_FOOD = 1;
+    public final int FOR_CARS = 1;
+    public final int FOR_OIL =  2;
+    public final int FOR_GAS =  3;
 }

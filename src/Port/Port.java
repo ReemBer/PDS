@@ -147,9 +147,9 @@ public class Port
     {
         // Данная расстановка необходима для того, чтобы потоки
         // Не пытались вытащить из ObservableList раньше, чем из очереди.
-        Ship result = shipRequests.take();
-        shipRequestsList.remove(0);
-        return result;
+            Ship result = shipRequests.take();
+            shipRequestsList.remove(result);
+            return result;
     }
 
     /**
@@ -157,9 +157,9 @@ public class Port
      * @param currentShip putting to the queue of requests.
      * @throws InterruptedException
      */
-    public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
+    public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
-        shipRequestsList.add(currentShip);
-        shipRequests.put(currentShip);
+            shipRequests.put(currentShip);
+            shipRequestsList.add(currentShip);
     }
 }

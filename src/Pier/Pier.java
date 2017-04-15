@@ -21,6 +21,7 @@ public class Pier extends Thread
 
     public Pier()
     {
+        timeCost = new TimeCost();
         parentPort = null;
         state = PierState.BLOCKED;
         ship = null;
@@ -28,6 +29,7 @@ public class Pier extends Thread
 
     public Pier(Port parentPort)
     {
+        timeCost = new TimeCost();
         this.parentPort = parentPort;
         state = PierState.WAITING;
         ship = null;
@@ -107,7 +109,7 @@ public class Pier extends Thread
             sleep(STEEP_TIME);
             // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
-
+        System.out.println("Completed : " + ship.getName() + " , " + ship.getCargo() + " , " + ship.getCount() + " , " + ship.isLoadRequest());
         state = PierState.WAITING;
     }
 

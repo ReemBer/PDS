@@ -19,8 +19,8 @@ public class ShipGenerator extends Thread
 {
     private final String DEFAULT_SHIP_NAMES_FILE = "ShipNames.txt";
     private final String[] DEFAULT_SHIP_NAMES;
-    private final int UPPER_BOUND = 100;
-    private final int LOWER_BOUND = 10;
+    private final int UPPER_BOUND = 10;
+    private final int LOWER_BOUND = 1;
     private final int CARGO_UPPER_BOUND = 4;
     private final int CARGO_LOWER_BOUND = 1;
     private final int SLEEP_TIME = 1000;
