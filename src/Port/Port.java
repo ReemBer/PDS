@@ -19,6 +19,7 @@ public class Port
 
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
+    private ObservableList<Ship> shiRequestsLists = FXCollections.observableArrayList();
     private Pier pier[];
     private ShipGenerator shipGenerator;
 
@@ -32,6 +33,7 @@ public class Port
 
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
+        shiRequestsLists.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
 
@@ -43,9 +45,7 @@ public class Port
 
     public ObservableList<Ship> getShipRequestsData()
     {
-        ObservableList<Ship> result = FXCollections.observableArrayList();
-        result.addAll(shipRequests);
-        return result;
+        return shiRequestsLists;
     }
 
     /**
@@ -64,11 +64,11 @@ public class Port
     {
         if(!processing)
         {
-            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
+            shipGenerator.start();
             processing = true;
         }
     }
@@ -106,6 +106,18 @@ public class Port
     }
 
     /**
+     * Used for stop processing
+     */
+    public synchronized void stopProcess()
+    {
+        shipGenerator.stop();
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i].stop();
+        }
+    }
+
+    /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
      * @param count count of type of cargo, needed to take
@@ -133,6 +145,7 @@ public class Port
      */
     public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
+        shiRequestsLists.remove(0);
         return shipRequests.take();
     }
 
@@ -144,5 +157,6 @@ public class Port
     public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
+        shiRequestsLists.add(currentShip);
     }
 }
