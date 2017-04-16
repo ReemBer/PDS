@@ -14,42 +14,58 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="100" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.View.ShipRequestsOverviewController">
+<VBox id="VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500" minWidth="100" prefHeight="500.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.View.ShipRequestsOverviewController">
     <children>
       <FlowPane alignment="CENTER" hgap="10" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 1" />
-                  <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar fx:id="pierProgress1" prefWidth="200.0" progress="0.33" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 1">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="pierText1" editable="false" prefHeight="100.0" prefWidth="127.0" />
+                  <ProgressBar fx:id="pierProgress1" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 2" />
-                  <TextArea prefHeight="100.0" prefWidth="100.0" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 2">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Label>
+                  <TextArea fx:id="pierText2" editable="false" prefHeight="100.0" prefWidth="100.0" />
                   <ProgressBar fx:id="pierProgress2" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 3" />
-                  <TextArea prefHeight="100.0" prefWidth="100.0" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 3">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Label>
+                  <TextArea fx:id="pierText3" editable="false" prefHeight="100.0" prefWidth="100.0" />
                   <ProgressBar fx:id="pierProgress3" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 4" />
-                  <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar fx:id="pierProgress4" prefHeight="6.0" prefWidth="100.0" progress="0.0" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 4">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Label>
+                  <TextArea fx:id="pierText4" editable="false" prefHeight="100.0" prefWidth="123.0" />
+                  <ProgressBar fx:id="pierProgress4" prefHeight="18.0" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="149.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 5" />
-                  <TextArea prefHeight="100.0" prefWidth="100.0" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 5">
+                     <font>
+                        <Font size="30.0" />
+                     </font></Label>
+                  <TextArea fx:id="pierText5" editable="false" prefHeight="100.0" prefWidth="100.0" />
                   <ProgressBar fx:id="pierProgress5" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>

@@ -7,7 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 
+import java.awt.font.ImageGraphicAttribute;
 import java.util.Observable;
 
 /**
@@ -26,6 +28,17 @@ public class ShipRequestsOverviewController {
     private ProgressBar pierProgress4 = new ProgressBar();
     @FXML
     private ProgressBar pierProgress5 = new ProgressBar();
+
+    @FXML
+    private TextArea pierText1 = new TextArea();
+    @FXML
+    private TextArea pierText2 = new TextArea();
+    @FXML
+    private TextArea pierText3 = new TextArea();
+    @FXML
+    private TextArea pierText4 = new TextArea();
+    @FXML
+    private TextArea pierText5 = new TextArea();
 
     @FXML
     private TableView<Ship> shipRequestTable;
@@ -50,7 +63,8 @@ public class ShipRequestsOverviewController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize()
+    {
         mainProgramObject.getStarted();
         setShipRequestTable();
 
@@ -105,6 +119,38 @@ public class ShipRequestsOverviewController {
                 break;
             }
             default: throw new IndexOutOfBoundsException();
+        }
+    }
+
+    public void setCurrentPierRequest(int index, String value)
+    {
+        switch (index)
+        {
+            case 0:
+            {
+                pierText1.setText(value);
+                break;
+            }
+            case 1:
+            {
+                pierText2.setText(value);
+                break;
+            }
+            case 2:
+            {
+                pierText3.setText(value);
+                break;
+            }
+            case 3:
+            {
+                pierText4.setText(value);
+                break;
+            }
+            case 4:
+            {
+                pierText5.setText(value);
+                break;
+            }
         }
     }
 }

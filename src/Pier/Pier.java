@@ -89,6 +89,10 @@ public class Pier extends Thread
      */
     private void process() throws InterruptedException
     {
+        String message = "Name : " + ship.getName() + "\nCargo : " + ship.getCargo() +
+                         "\nCount : " + ship.getCount() + "\nRequest : " +
+                         (ship.isLoadRequest() ? "Loading" : "Unloading");
+        parentPort.getController().setCurrentPierRequest(myIndex, message);
         if(ship.isLoadRequest())
         {
             state = PierState.LOADING;
@@ -96,6 +100,7 @@ public class Pier extends Thread
             {
                 // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
                 sleep(10*STEEP_TIME);
+                return;
             }
         }
         else
