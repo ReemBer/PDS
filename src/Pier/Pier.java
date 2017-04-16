@@ -98,8 +98,13 @@ public class Pier extends Thread
             state = PierState.LOADING;
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
-                // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
-                sleep(10*STEEP_TIME);
+                for(int i = 0; i < 5; ++i)
+                {
+                    parentPort.getController().setPierProgress(myIndex, 0);
+                    sleep(10*STEEP_TIME);
+                    parentPort.getController().setPierProgress(myIndex, 1);
+                    sleep(10*STEEP_TIME);
+                }
                 return;
             }
         }
