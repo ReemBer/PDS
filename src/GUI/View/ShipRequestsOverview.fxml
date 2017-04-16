@@ -22,35 +22,35 @@
                <children>
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 1" />
                   <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="pierProgress1" prefWidth="200.0" progress="0.33" />
                </children>
             </VBox>
-            <VBox prefHeight="200.0" alignment="CENTER" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="100.0" alignment="CENTER" text="Pier 2" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 2" />
                   <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="pierProgress2" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="100.0" text="Pier 3" alignment="CENTER" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 3" />
                   <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="pierProgress3" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="100.0" text="Pier 4" alignment="CENTER" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 4" />
                   <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar prefHeight="6.0" prefWidth="100.0" progress="0.0" />
+                  <ProgressBar fx:id="pierProgress4" prefHeight="6.0" prefWidth="100.0" progress="0.0" />
                </children>
             </VBox>
-            <VBox prefHeight="149.0" prefWidth="100.0" alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="149.0" prefWidth="100.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="100.0" text="Pier 5" alignment="CENTER" />
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Pier 5" />
                   <TextArea prefHeight="100.0" prefWidth="100.0" />
-                  <ProgressBar prefWidth="200.0" progress="0.0" />
+                  <ProgressBar fx:id="pierProgress5" prefWidth="200.0" progress="0.0" />
                </children>
             </VBox>
          </children>

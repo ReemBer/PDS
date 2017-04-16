@@ -2,6 +2,7 @@ package GUI.View;
 
 import Manager.Manager;
 import Ship.*;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,8 +15,18 @@ import java.util.Observable;
  * @author name  : Tarasevich vladislav
  * @author gmail : tarasevich.vlad.97@gmail.com
  */
-public class ShipRequestsOverviewController
-{
+public class ShipRequestsOverviewController {
+    @FXML
+    private ProgressBar pierProgress1 = new ProgressBar();
+    @FXML
+    private ProgressBar pierProgress2 = new ProgressBar();
+    @FXML
+    private ProgressBar pierProgress3 = new ProgressBar();
+    @FXML
+    private ProgressBar pierProgress4 = new ProgressBar();
+    @FXML
+    private ProgressBar pierProgress5 = new ProgressBar();
+
     @FXML
     private TableView<Ship> shipRequestTable;
 
@@ -33,21 +44,25 @@ public class ShipRequestsOverviewController
 
     private Manager mainProgramObject;
 
-    public ShipRequestsOverviewController()
-    {
-        mainProgramObject = new Manager();
+    public ShipRequestsOverviewController() {
+        mainProgramObject = new Manager(this);
         mainProgramObject.setIndexOfWorkingPort(0);
     }
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
+        mainProgramObject.getStarted();
         setShipRequestTable();
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         cargoColumn.setCellValueFactory(cellData -> cellData.getValue().cargoProperty());
         countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
         isLoadRequestColumn.setCellValueFactory(cellData -> cellData.getValue().isLoadRequestProperty());
+    }
+
+    public Manager getMainProgramObject()
+    {
+        return mainProgramObject;
     }
 
     public void setMainProgramObject(Manager mainProgramObject)
@@ -57,15 +72,39 @@ public class ShipRequestsOverviewController
 
     public void setShipRequestTable()
     {
-        mainProgramObject.getStarted();
-
-//        ObservableList<Ship> data = FXCollections.observableArrayList();
-//        for(int i = 0; i < 10; ++i)
-//        {
-//            data.add(new Ship());
-//        }
-//
-//        shipRequestTable.setItems(data);
         shipRequestTable.setItems(mainProgramObject.getShipRequestsData());
+    }
+
+    public void setPierProgress(int index, double value)
+    {
+        switch (index)
+        {
+            case 0:
+            {
+                pierProgress1.setProgress(value);
+                break;
+            }
+            case 1:
+            {
+                pierProgress2.setProgress(value);
+                break;
+            }
+            case 2:
+            {
+                pierProgress3.setProgress(value);
+                break;
+            }
+            case 3:
+            {
+                pierProgress4.setProgress(value);
+                break;
+            }
+            case 4:
+            {
+                pierProgress5.setProgress(value);
+                break;
+            }
+            default: throw new IndexOutOfBoundsException();
+        }
     }
 }

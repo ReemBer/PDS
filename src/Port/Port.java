@@ -1,7 +1,9 @@
 package Port;
 
+import GUI.View.ShipRequestsOverviewController;
 import Pier.Pier;
 import Ship.*;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,20 +16,27 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Port
 {
-    private final int COUNT_OF_PIERS =  5;
-    private final int QUEUE_SIZE     = 20;
+    private final int COUNT_OF_PIERS = 5;
+    private final int QUEUE_SIZE     = 5;
 
-    private Warehouse warehouse;
-    private ArrayBlockingQueue<Ship> shipRequests;
-    private ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
-    private Pier pier[];
+    private final Object warehouseLock = new Object();
+    private final Object takeRequestLock = new Object();
+
+    private volatile Warehouse warehouse;
+    private volatile ArrayBlockingQueue<Ship> shipRequests;
+    private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
+
     private ShipGenerator shipGenerator;
+    private Pier pier[];
+
+    private ShipRequestsOverviewController controller;
 
     private boolean processing;
     private boolean suspended;
 
-    public Port()
+    public Port(ShipRequestsOverviewController controller)
     {
+        this.controller = controller;
         processing = false;
         suspended  = false;
 
@@ -37,10 +46,18 @@ public class Port
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
 
+        shipGenerator.setPriority(Thread.MAX_PRIORITY);
+
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
-            pier[i] = new Pier(this);
+            pier[i] = new Pier(this, i);
+            pier[i].setName("PIER " + (i + 1));
         }
+    }
+
+    public ShipRequestsOverviewController getController()
+    {
+        return controller;
     }
 
     public ObservableList<Ship> getShipRequestsData()
@@ -64,11 +81,11 @@ public class Port
     {
         if(!processing)
         {
+            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
-            shipGenerator.start();
             processing = true;
         }
     }
@@ -123,9 +140,12 @@ public class Port
      * @param count count of type of cargo, needed to take
      * @return true, if you can take such count of such cargo
      */
-    public synchronized boolean takeCargo(Cargo cargo, int count)
+    public boolean takeCargo(Cargo cargo, int count)
     {
-        return warehouse.takeCargo(cargo, count);
+        synchronized (warehouseLock)
+        {
+            return warehouse.takeCargo(cargo, count);
+        }
     }
 
     /**
@@ -133,9 +153,12 @@ public class Port
      * @param cargo type of cargo, wanted to put
      * @param count count of type of cargo, wanted to put
      */
-    public synchronized void putCargo(Cargo cargo, int count)
+    public void putCargo(Cargo cargo, int count)
     {
-        warehouse.putCargo(cargo, count);
+        synchronized (warehouseLock)
+        {
+            warehouse.putCargo(cargo, count);
+        }
     }
 
     /**
@@ -143,13 +166,12 @@ public class Port
      * @return first ship Request in the queue of ship requests.
      * @throws InterruptedException
      */
-    public synchronized Ship takeCurrentRequest() throws InterruptedException
+    public Ship takeCurrentRequest() throws InterruptedException
     {
-        // Данная расстановка необходима для того, чтобы потоки
-        // Не пытались вытащить из ObservableList раньше, чем из очереди.
-            Ship result = shipRequests.take();
-            shipRequestsList.remove(result);
-            return result;
+        synchronized (takeRequestLock)
+        {
+            return shipRequests.take();
+        }
     }
 
     /**
@@ -159,7 +181,7 @@ public class Port
      */
     public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
-            shipRequests.put(currentShip);
-            shipRequestsList.add(currentShip);
+        shipRequests.put(currentShip);
+        shipRequestsList.setAll(shipRequests);
     }
 }

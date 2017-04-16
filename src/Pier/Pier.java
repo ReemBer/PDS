@@ -12,12 +12,14 @@ import Ship.Ship;
  */
 public class Pier extends Thread
 {
-    private final int STEEP_TIME = 1000;
+    private final int STEEP_TIME = 100;
     private Port  parentPort;
     private PierState state;
 
     private Ship  ship;
     private TimeCost timeCost;
+
+    private int myIndex;
 
     public Pier()
     {
@@ -27,8 +29,9 @@ public class Pier extends Thread
         ship = null;
     }
 
-    public Pier(Port parentPort)
+    public Pier(Port parentPort, int myIndex)
     {
+        this.myIndex = myIndex;
         timeCost = new TimeCost();
         this.parentPort = parentPort;
         state = PierState.WAITING;
@@ -92,7 +95,7 @@ public class Pier extends Thread
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
                 // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
-                sleep(100*STEEP_TIME);
+                sleep(10*STEEP_TIME);
             }
         }
         else
@@ -106,8 +109,8 @@ public class Pier extends Thread
 
         for(int time = 0; time <= fullTime; ++time)
         {
+            parentPort.getController().setPierProgress(myIndex, ((double)time/(double)fullTime));
             sleep(STEEP_TIME);
-            // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
         System.out.println("Completed : " + ship.getName() + " , " + ship.getCargo() + " , " + ship.getCount() + " , " + ship.isLoadRequest());
         state = PierState.WAITING;

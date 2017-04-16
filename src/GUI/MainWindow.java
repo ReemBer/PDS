@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.View.ShipRequestsOverviewController;
 import Manager.Manager;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +25,9 @@ public class MainWindow extends Application
 {
     private VBox rootLayout;
     private Stage primaryStage;
-    private Manager manager;
+    private FXMLLoader loader;
+    private ShipRequestsOverviewController controller;
+    private Manager mainProgramObject;
 
     @Override
     public void start(Stage primaryStage)
@@ -33,19 +36,24 @@ public class MainWindow extends Application
         this.primaryStage.setTitle("Port Dispatch System");
 
         initRootLayout();
-
-        showShipRequestsOverview();
     }
 
     public void initRootLayout()
     {
         try
         {
-            FXMLLoader loader = new FXMLLoader();
+            loader = new FXMLLoader();
             loader.setLocation(MainWindow.class.getResource("View/ShipRequestsOverview.fxml"));
             rootLayout = loader.load();
+            setController();
             primaryStage.setScene(new Scene(rootLayout));
 
+            mainProgramObject = controller.getMainProgramObject();
+
+            for(int i = 0; i < 5; ++i)
+            {
+                controller.setPierProgress(i, 0.5);
+            }
             primaryStage.show();
         }
         catch (IOException e)
@@ -54,19 +62,14 @@ public class MainWindow extends Application
         }
     }
 
-    public void showShipRequestsOverview()
+    public void setController()
     {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainWindow.class.getResource("View/ShipRequestsOverview.fxml"));
+        controller = loader.getController();
+    }
 
-            rootLayout = loader.load();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+    public ShipRequestsOverviewController getController()
+    {
+        return controller;
     }
 
     public Stage getPrimaryStage()
