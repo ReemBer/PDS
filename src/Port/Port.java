@@ -20,6 +20,7 @@ public class Port
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
     private ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
+    private ObservableList<State> statusLog = FXCollections.observableArrayList();
     private Pier pier[];
     private ShipGenerator shipGenerator;
 
@@ -46,6 +47,11 @@ public class Port
     public ObservableList<Ship> getShipRequestsData()
     {
         return shipRequestsList;
+    }
+
+    public ObservableList<State> getStatusLog()
+    {
+        return statusLog;
     }
 
     /**
