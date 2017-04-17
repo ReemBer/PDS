@@ -9,7 +9,7 @@ import java.util.Date;
  * @author name  : Tarasevich Vladislav
  * @author gmail : tarasevich.vlad.97@gmail.com
  */
-public class State
+public class StateUnit
 {
     private StringProperty  date;
     private StringProperty  time;
@@ -20,7 +20,7 @@ public class State
     private IntegerProperty waitingShips;
     private IntegerProperty processedShips;
 
-    public State(String date, String time, int oil, int gas, int food, int cars, int waitingShips, int processedShips)
+    public StateUnit(String date, String time, int oil, int gas, int food, int cars, int waitingShips, int processedShips)
     {
         this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);

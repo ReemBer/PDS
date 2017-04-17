@@ -18,11 +18,15 @@ public class Port
     private final int QUEUE_SIZE     = 20;
 
     private Warehouse warehouse;
+    private ShipGenerator shipGenerator;
+
     private ArrayBlockingQueue<Ship> shipRequests;
     private ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
-    private ObservableList<State> statusLog = FXCollections.observableArrayList();
+    private ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
+
     private Pier pier[];
-    private ShipGenerator shipGenerator;
+
+    private int processedCount = 0;
 
     private boolean processing;
     private boolean suspended;
@@ -49,9 +53,28 @@ public class Port
         return shipRequestsList;
     }
 
-    public ObservableList<State> getStatusLog()
+    public ObservableList<StateUnit> getStatusLog()
     {
         return statusLog;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public int getQueueSize()
+    {
+        return shipRequests.size();
+    }
+
+    public void incrementProcessedCount()
+    {
+        ++processedCount;
+    }
+
+    public int getProcessedCount()
+    {
+        return processedCount;
     }
 
     /**

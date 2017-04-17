@@ -89,7 +89,6 @@ public class Pier extends Thread
             state = PierState.LOADING;
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
-                // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
                 sleep(100*STEEP_TIME);
             }
         }
@@ -105,7 +104,6 @@ public class Pier extends Thread
         for(int time = 0; time <= fullTime; ++time)
         {
             sleep(STEEP_TIME);
-            // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
 
         state = PierState.WAITING;
