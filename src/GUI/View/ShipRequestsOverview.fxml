@@ -105,53 +105,59 @@
              </children>
           </GridPane>
       </FlowPane>
-        <FlowPane alignment="CENTER_LEFT">
-         <Separator orientation="VERTICAL" prefHeight="50.0" prefWidth="0.0" visible="false" />
-         <FlowPane alignment="CENTER_LEFT">
-            <children>
-                  <Label prefHeight="17.0" prefWidth="137.0" text="Requests:" textAlignment="CENTER">
-                      <font>
-                      <Font name="Verdana" size="24.0" />
-                      </font>
-                  </Label>
-            </children>
-         </FlowPane>
-         <FlowPane alignment="CENTER_RIGHT">
-            <children>
-               <Label text="State Logs:">
-                  <font>
-                     <Font name="Verdana" size="24.0" />
-                  </font>
-               </Label>
-            </children>
-         </FlowPane>
-        </FlowPane>
       <HBox>
          <children>
-              <!-- Описание таблицы для вывода запросов от кораблей -->
-              <TableView fx:id="shipRequestTable" prefHeight="320.0" prefWidth="660.0">
-                  <columns>
-                      <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
-                      <TableColumn fx:id="cargoColumn" prefWidth="150.0" text="Type of cargo" />
-                      <TableColumn fx:id="countColumn" prefWidth="50.0" text="Count" />
-                      <TableColumn fx:id="isLoadRequestColumn" prefWidth="100.0" text="is load request?" />
-                  </columns>
+            <VBox>
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>
-              </TableView>
-            <TableView fx:id="stateLogTable" prefHeight="105.0" prefWidth="660.0">
-              <columns>
-                <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
-                <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
-                <TableColumn fx:id="cargoCountsColumn" prefWidth="108.0" text="Cargo counts" />
-                <TableColumn fx:id="requestsColumn" prefWidth="74.0" text="Requests" />
-
-              </columns>
+               <children>
+                  <FlowPane alignment="CENTER_LEFT">
+                     <children>
+                           <Label prefHeight="17.0" prefWidth="137.0" text="Requests:" textAlignment="CENTER">
+                               <font>
+                               <Font name="Verdana" size="24.0" />
+                               </font>
+                           </Label>
+                     </children>
+                  </FlowPane>
+                    <!-- Описание таблицы для вывода запросов от кораблей -->
+                    <TableView fx:id="shipRequestTable" prefHeight="320.0" prefWidth="660.0">
+                        <columns>
+                            <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Name" />
+                            <TableColumn fx:id="cargoColumn" prefWidth="150.0" text="Type of cargo" />
+                            <TableColumn fx:id="countColumn" prefWidth="50.0" text="Count" />
+                            <TableColumn fx:id="isLoadRequestColumn" prefWidth="100.0" text="is load request?" />
+                        </columns>
+                    </TableView>
+               </children>
+            </VBox>
+            <VBox>
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>
-            </TableView>
+               <children>
+                  <FlowPane alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="State Logs:">
+                           <font>
+                              <Font name="Verdana" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </FlowPane>
+                   <!-- Таблица вывода состояния склада порта -->
+                  <TableView fx:id="stateLogTable" prefHeight="320.0" prefWidth="660.0">
+                    <columns>
+                      <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                      <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
+                      <TableColumn fx:id="cargoCountsColumn" prefWidth="108.0" text="Cargo counts" />
+                      <TableColumn fx:id="requestsColumn" prefWidth="74.0" text="Requests" />
+      
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
          </children>
          <VBox.margin>
             <Insets left="10.0" right="10.0" />
