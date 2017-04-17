@@ -27,7 +27,12 @@ public class Port
     private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
 
     private ShipGenerator shipGenerator;
+
+    private ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
+
     private Pier pier[];
+
+    private int processedCount = 0;
 
     private ShipRequestsOverviewController controller;
 
@@ -46,8 +51,6 @@ public class Port
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
 
-        shipGenerator.setPriority(Thread.MAX_PRIORITY);
-
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
             pier[i] = new Pier(this, i);
@@ -63,6 +66,30 @@ public class Port
     public ObservableList<Ship> getShipRequestsData()
     {
         return shipRequestsList;
+    }
+
+    public ObservableList<StateUnit> getStatusLog()
+    {
+        return statusLog;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public int getQueueSize()
+    {
+        return shipRequests.size();
+    }
+
+    public void incrementProcessedCount()
+    {
+        ++processedCount;
+    }
+
+    public int getProcessedCount()
+    {
+        return processedCount;
     }
 
     /**
@@ -81,11 +108,11 @@ public class Port
     {
         if(!processing)
         {
-            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
+            shipGenerator.start();
             processing = true;
         }
     }
@@ -140,12 +167,9 @@ public class Port
      * @param count count of type of cargo, needed to take
      * @return true, if you can take such count of such cargo
      */
-    public boolean takeCargo(Cargo cargo, int count)
+    public synchronized boolean takeCargo(Cargo cargo, int count)
     {
-        synchronized (warehouseLock)
-        {
-            return warehouse.takeCargo(cargo, count);
-        }
+        return warehouse.takeCargo(cargo, count);
     }
 
     /**
@@ -153,12 +177,9 @@ public class Port
      * @param cargo type of cargo, wanted to put
      * @param count count of type of cargo, wanted to put
      */
-    public void putCargo(Cargo cargo, int count)
+    public synchronized void putCargo(Cargo cargo, int count)
     {
-        synchronized (warehouseLock)
-        {
-            warehouse.putCargo(cargo, count);
-        }
+        warehouse.putCargo(cargo, count);
     }
 
     /**
