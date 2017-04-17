@@ -1,9 +1,13 @@
 package Ship;
 
+import javafx.beans.property.*;
+
 /**
- * Created by Tarasevich Vladislav on 08.04.2017.
- * This class is used to store data about a ship.
- * Used by Queue of Requests.
+ * Created by Tarasevich Vladislav on 12.04.2017.
+ * @author name : Tarasevich Vladislav
+ * @author mail : tarasevich.vlad.97@gmail.com
+ * @version 2.0
+ * This is the Class-model for TableView.
  */
 public class Ship
 {
@@ -15,20 +19,17 @@ public class Ship
     private final int     DEFAULT_COUNT   = 10;
     private final boolean DEFAULT_REQUEST = false;
 
-    private String  name;
-    private Cargo  cargo;
-    private int    count;
-    private boolean isLoadRequest;
+    private final StringProperty          name;
+    private final ObjectProperty<Cargo>  cargo;
+    private final IntegerProperty        count;
+    private final ObjectProperty<Boolean> isLoadRequest;
 
-    /**
-     * This constructor is used by Default
-     */
     public Ship()
     {
-        name  = DEFAULT_NAME;
-        cargo = DEFAULT_CARGO;
-        count = DEFAULT_COUNT;
-        isLoadRequest = DEFAULT_REQUEST;
+        name  = new SimpleStringProperty(DEFAULT_NAME);
+        cargo = new SimpleObjectProperty<Cargo>(DEFAULT_CARGO);
+        count = new SimpleIntegerProperty(DEFAULT_COUNT);
+        isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
     }
 
     /**
@@ -37,10 +38,10 @@ public class Ship
      */
     public Ship(String name)
     {
-        this.name = name;
-        cargo = DEFAULT_CARGO;
-        count = DEFAULT_COUNT;
-        isLoadRequest = DEFAULT_REQUEST;
+        this.name  = new SimpleStringProperty(name);
+        cargo = new SimpleObjectProperty<Cargo>(DEFAULT_CARGO);
+        count = new SimpleIntegerProperty(DEFAULT_COUNT);
+        isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
     }
 
     /**
@@ -52,81 +53,87 @@ public class Ship
      */
     public Ship(String name, Cargo cargo, int count)
     {
-        this.name   = name;
-        this.cargo  = cargo;
-        this.count  = count;
-        isLoadRequest = DEFAULT_REQUEST;
+        this.name  = new SimpleStringProperty(name);
+        this.cargo = new SimpleObjectProperty<Cargo>(cargo);
+        this.count = new SimpleIntegerProperty(count);
+        isLoadRequest = new SimpleObjectProperty<>(DEFAULT_REQUEST);
     }
 
-    /**
-     * This constructor used to specify all fields
-     * @param name
-     * @param cargo
-     * @param count
-     * @param isLoadRequest
-     */
     public Ship(String name, Cargo cargo, int count, boolean isLoadRequest)
     {
-        this.name = name;
-        this.count = count;
-        this.cargo = cargo;
-        this.count = count;
-        this.isLoadRequest = isLoadRequest;
+        this.name = new SimpleStringProperty(name);
+        this.cargo = new SimpleObjectProperty<Cargo>(cargo);
+        this.count = new SimpleIntegerProperty(count);
+        this.isLoadRequest = new SimpleObjectProperty<>(isLoadRequest);
     }
 
-    public String getName()
+    public StringProperty nameProperty()
     {
         return name;
     }
 
-    public Cargo getCargo()
+    public String getName()
+    {
+        return name.get();
+    }
+
+    public void setName(String name)
+    {
+        this.name.set(name);
+    }
+
+    public ObjectProperty<Cargo> cargoProperty()
     {
         return cargo;
     }
 
-    public int getCount()
+    public Cargo getCargo()
+    {
+        return cargo.get();
+    }
+
+    public void setCargo(Cargo cargo)
+    {
+        this.cargo.set(cargo);
+    }
+
+    public IntegerProperty countProperty()
     {
         return count;
     }
 
-    public boolean isLoadRequest()
+    public int getCount()
+    {
+        return count.get();
+    }
+
+    public void setCount(Integer count)
+    {
+        this.count.set(count);
+    }
+
+    public ObjectProperty<Boolean> isLoadRequestProperty()
     {
         return isLoadRequest;
     }
 
-    /**
-     * set new name of Ship
-     * @param name
-     */
-    public void setName(String name)
+    public String getIsLoadReques()
     {
-        this.name = name;
+        return isLoadRequest.get() ? "TRUE" : "FALSE";
     }
 
-    /**
-     * set new type of Cargo
-     * @param cargo
-     */
-    public void setCargo(Cargo cargo)
+    public void setIsLoadRequest(Boolean isLoadRequest)
     {
-        this.cargo = cargo;
+        this.isLoadRequest.set(isLoadRequest);
     }
 
-    /**
-     * set new count of Cargo
-     * @param count
-     */
-    public void setCount(int count)
+    public void setLoadRequest(boolean loadRequest)
     {
-        this.count = count;
+        this.isLoadRequest.set(loadRequest);
     }
 
-    /**
-     * @param isLoadRequest true -- ship is requesting a beth for loading;
-     *                      false - ship is requesting a beth for unloading.
-     */
-    public void setLoadRequest(boolean isLoadRequest)
+    public boolean isLoadRequest()
     {
-        this.isLoadRequest = isLoadRequest;
+        return isLoadRequest.get();
     }
 }

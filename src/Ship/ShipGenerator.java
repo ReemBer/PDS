@@ -19,9 +19,9 @@ public class ShipGenerator extends Thread
 {
     private final String DEFAULT_SHIP_NAMES_FILE = "ShipNames.txt";
     private final String[] DEFAULT_SHIP_NAMES;
-    private final int UPPER_BOUND = 100;
-    private final int LOWER_BOUND = 10;
-    private final int CARGO_UPPER_BOUND = 4;
+    private final int UPPER_BOUND = 10;
+    private final int LOWER_BOUND = 1;
+    private final int CARGO_UPPER_BOUND = 5;
     private final int CARGO_LOWER_BOUND = 1;
     private final int SLEEP_TIME = 1000;
 
@@ -89,13 +89,13 @@ public class ShipGenerator extends Thread
 
     private String getRandomName()
     {
-        int choose = randomizer.nextInt()%(shipNames.length);
+        int choose = Math.abs(randomizer.nextInt())%(shipNames.length);
         return shipNames[choose];
     }
 
     private Cargo getRandomCargo()
     {
-        int choose = (randomizer.nextInt()%(CARGO_UPPER_BOUND - CARGO_LOWER_BOUND)) + CARGO_LOWER_BOUND;
+        int choose = (Math.abs(randomizer.nextInt())%(CARGO_UPPER_BOUND - CARGO_LOWER_BOUND)) + CARGO_LOWER_BOUND;
         switch (choose)
         {
             case 1: // OIL selected
@@ -123,7 +123,7 @@ public class ShipGenerator extends Thread
 
     private int getRandomCount()
     {
-        return ((randomizer.nextInt()%UPPER_BOUND) + LOWER_BOUND);
+        return ((Math.abs(randomizer.nextInt())%UPPER_BOUND) + LOWER_BOUND);
     }
 
     private boolean getRandomRequest()

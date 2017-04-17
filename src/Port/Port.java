@@ -1,7 +1,12 @@
 package Port;
 
+import GUI.View.ShipRequestsOverviewController;
 import Pier.Pier;
 import Ship.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -11,31 +16,91 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class Port
 {
-    private final int COUNT_OF_PIERS =  5;
-    private final int QUEUE_SIZE     = 20;
+    private final int COUNT_OF_PIERS = 5;
+    private final int QUEUE_SIZE     = 12;
 
-    private Warehouse warehouse;
-    private ArrayBlockingQueue<Ship> shipRequests;
-    private Pier pier[];
+    private final Object warehouseLock = new Object();
+    private final Object takeRequestLock = new Object();
+
+    private volatile Warehouse warehouse;
+    private volatile ArrayBlockingQueue<Ship> shipRequests;
+    private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
+    private volatile ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
+
     private ShipGenerator shipGenerator;
+    private StatusLog     statusLogThread;
+
+    private Pier pier[];
+
+    private int processedCount = 0;
+
+    private ShipRequestsOverviewController controller;
 
     private boolean processing;
     private boolean suspended;
 
-    public Port()
+    public Port(ShipRequestsOverviewController controller)
     {
+        this.controller = controller;
         processing = false;
         suspended  = false;
 
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
+        shipRequestsList.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
+        statusLogThread = new StatusLog(this);
 
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
-            pier[i] = new Pier(this);
+            pier[i] = new Pier(this, i);
+            pier[i].setName("PIER " + (i + 1));
         }
+    }
+
+    public ShipRequestsOverviewController getController()
+    {
+        return controller;
+    }
+
+    public ObservableList<Ship> getShipRequestsData()
+    {
+        return shipRequestsList;
+    }
+
+
+    public ObservableList<StateUnit> getStatusLog()
+    {
+        return statusLog;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public int getQueueSize()
+    {
+        return shipRequests.size();
+    }
+
+    public void incrementProcessedCount()
+    {
+        ++processedCount;
+    }
+
+    public int getProcessedCount()
+    {
+        return processedCount;
+    }
+
+    /**
+     * method, used to view current state of queue of requests;
+     * @return array of ships (requests)
+     */
+    public Ship[] getShipRequests()
+    {
+        return shipRequests.toArray(new Ship[shipRequests.size()]);
     }
 
     /**
@@ -45,11 +110,12 @@ public class Port
     {
         if(!processing)
         {
-            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
+            shipGenerator.start();
+            statusLogThread.start();
             processing = true;
         }
     }
@@ -87,6 +153,18 @@ public class Port
     }
 
     /**
+     * Used for stop processing
+     */
+    public synchronized void stopProcess()
+    {
+        shipGenerator.stop();
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i].stop();
+        }
+    }
+
+    /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
      * @param count count of type of cargo, needed to take
@@ -112,9 +190,12 @@ public class Port
      * @return first ship Request in the queue of ship requests.
      * @throws InterruptedException
      */
-    public synchronized Ship takeCurrentRequest() throws InterruptedException
+    public Ship takeCurrentRequest() throws InterruptedException
     {
-        return shipRequests.take();
+        synchronized (takeRequestLock)
+        {
+            return shipRequests.take();
+        }
     }
 
     /**
@@ -122,8 +203,9 @@ public class Port
      * @param currentShip putting to the queue of requests.
      * @throws InterruptedException
      */
-    public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
+    public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
+        shipRequestsList.setAll(shipRequests);
     }
 }

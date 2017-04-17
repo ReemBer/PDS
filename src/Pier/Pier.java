@@ -12,22 +12,27 @@ import Ship.Ship;
  */
 public class Pier extends Thread
 {
-    private final int STEEP_TIME = 1000;
+    private final int STEEP_TIME = 100;
     private Port  parentPort;
     private PierState state;
 
     private Ship  ship;
     private TimeCost timeCost;
 
+    private int myIndex;
+
     public Pier()
     {
+        timeCost = new TimeCost();
         parentPort = null;
         state = PierState.BLOCKED;
         ship = null;
     }
 
-    public Pier(Port parentPort)
+    public Pier(Port parentPort, int myIndex)
     {
+        this.myIndex = myIndex;
+        timeCost = new TimeCost();
         this.parentPort = parentPort;
         state = PierState.WAITING;
         ship = null;
@@ -84,13 +89,24 @@ public class Pier extends Thread
      */
     private void process() throws InterruptedException
     {
+        String message = "Name : " + ship.getName() + "\nCargo : " + ship.getCargo() +
+                         "\nCount : " + ship.getCount() + "\nRequest : " +
+                         (ship.isLoadRequest() ? "Loading" : "Unloading");
+        parentPort.getController().setCurrentPierRequest(myIndex, message);
         if(ship.isLoadRequest())
         {
             state = PierState.LOADING;
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
-                // TODO: 10.04.2017 добавить сигнал об отклонении текущего запроса
-                sleep(100*STEEP_TIME);
+                for(int i = 0; i < 5; ++i)
+                {
+                    parentPort.getController().setPierProgress(myIndex, 0);
+                    sleep(10*STEEP_TIME);
+                    parentPort.getController().setPierProgress(myIndex, 1);
+                    sleep(10*STEEP_TIME);
+                }
+                parentPort.incrementProcessedCount();
+                return;
             }
         }
         else
@@ -104,10 +120,12 @@ public class Pier extends Thread
 
         for(int time = 0; time <= fullTime; ++time)
         {
+            parentPort.getController().setPierProgress(myIndex, ((double)time/(double)fullTime));
             sleep(STEEP_TIME);
-            // TODO: 10.04.2017 Забацать обновление прогресс бара
         }
-
+        parentPort.getController().setPierProgress(myIndex, 0.);
+        System.out.println(getName() + " : Completed : " + ship.getName() + " , " + ship.getCargo() + " , " + ship.getCount() + " , " + ship.isLoadRequest());
+        parentPort.incrementProcessedCount();
         state = PierState.WAITING;
     }
 
