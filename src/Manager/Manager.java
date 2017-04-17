@@ -2,7 +2,7 @@ package Manager;
 
 import GUI.MainWindow;
 import GUI.View.ShipRequestsOverviewController;
-import Port.Port;
+import Port.*;
 import Ship.*;
 import javafx.collections.ObservableList;
 
@@ -83,6 +83,11 @@ public class Manager
     public ObservableList<Ship> getShipRequestsData()
     {
         return port[indexOfCurrentPort].getShipRequestsData();
+    }
+
+    public ObservableList<StateUnit> getStatusLogData()
+    {
+        return port[indexOfCurrentPort].getStatusLog();
     }
 
     public void setMainWindow(MainWindow mainWindow)

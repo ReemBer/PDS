@@ -140,10 +140,13 @@
                   <Insets right="5.0" />
                </HBox.margin>
               </TableView>
-            <TableView prefHeight="105.0" prefWidth="660.0">
+            <TableView fx:id="stateLogTable" prefHeight="105.0" prefWidth="660.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
+                <TableColumn fx:id="cargoCountsColumn" prefWidth="108.0" text="Cargo counts" />
+                <TableColumn fx:id="requestsColumn" prefWidth="74.0" text="Requests" />
+
               </columns>
                <HBox.margin>
                   <Insets left="5.0" />

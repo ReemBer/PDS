@@ -1,6 +1,7 @@
 package GUI.View;
 
 import Manager.Manager;
+import Port.StateUnit;
 import Ship.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 
+import javax.swing.plaf.nimbus.State;
 import java.awt.font.ImageGraphicAttribute;
 import java.util.Observable;
 
@@ -42,18 +44,38 @@ public class ShipRequestsOverviewController {
 
     @FXML
     private TableView<Ship> shipRequestTable;
-
     @FXML
     private TableColumn<Ship, String> nameColumn;
-
     @FXML
     private TableColumn<Ship, Cargo> cargoColumn;
-
     @FXML
     private TableColumn<Ship, Integer> countColumn;
-
     @FXML
     private TableColumn<Ship, Boolean> isLoadRequestColumn;
+
+    @FXML
+    private TableView<StateUnit> stateLogTable;
+    @FXML
+    private TableColumn<StateUnit, String> dateColumn;
+    @FXML
+    private TableColumn<StateUnit, String> timeColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> cargoCountsColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> oilCountColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> gasCountColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> foodCountColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> carsCountColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> requestsColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> waitingShipsColumn;
+    @FXML
+    private TableColumn<StateUnit, Integer> processedShipsColumn;
+
 
     private Manager mainProgramObject;
 
@@ -67,11 +89,36 @@ public class ShipRequestsOverviewController {
     {
         mainProgramObject.getStarted();
         setShipRequestTable();
+        setStateLogTable();
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         cargoColumn.setCellValueFactory(cellData -> cellData.getValue().cargoProperty());
         countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
         isLoadRequestColumn.setCellValueFactory(cellData -> cellData.getValue().isLoadRequestProperty());
+
+        dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+        timeColumn.setCellValueFactory(cellData -> cellData.getValue().timeProperty());
+
+        oilCountColumn = new TableColumn<>("Oil");
+        gasCountColumn = new TableColumn<>("Gas");
+        foodCountColumn = new TableColumn<>("Food");
+        carsCountColumn = new TableColumn<>("Cars");
+
+        oilCountColumn.setCellValueFactory(cellData -> cellData.getValue().oilCountProperty().asObject());
+        gasCountColumn.setCellValueFactory(cellData -> cellData.getValue().gasCountProperty().asObject());
+        foodCountColumn.setCellValueFactory(cellData -> cellData.getValue().foodCountProperty().asObject());
+        carsCountColumn.setCellValueFactory(cellData -> cellData.getValue().carsCountProperty().asObject());
+
+        cargoCountsColumn.getColumns().setAll(oilCountColumn, gasCountColumn, foodCountColumn, carsCountColumn);
+
+        waitingShipsColumn = new TableColumn<>("Waiting");
+        processedShipsColumn = new TableColumn<>("Processed");
+
+        waitingShipsColumn.setCellValueFactory(cellData -> cellData.getValue().waitingShipsProperty().asObject());
+        processedShipsColumn.setCellValueFactory(cellData -> cellData.getValue().processedShipsProperty().asObject());
+
+
+        requestsColumn.getColumns().setAll(waitingShipsColumn, processedShipsColumn);
     }
 
     public Manager getMainProgramObject()
@@ -87,6 +134,11 @@ public class ShipRequestsOverviewController {
     public void setShipRequestTable()
     {
         shipRequestTable.setItems(mainProgramObject.getShipRequestsData());
+    }
+
+    public void setStateLogTable()
+    {
+        stateLogTable.setItems(mainProgramObject.getStatusLogData());
     }
 
     public void setPierProgress(int index, double value)

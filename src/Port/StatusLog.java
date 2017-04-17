@@ -28,32 +28,30 @@ public class StatusLog extends Thread
     public StatusLog(Port parentPort)
     {
         date = new SimpleDateFormat("dd.MM.yyyy");
-        time = new SimpleDateFormat("hh:mm");
+        time = new SimpleDateFormat("hh:mm:ss");
         this.parentPort = parentPort;
         statusLog = parentPort.getStatusLog();
         warehouse = parentPort.getWarehouse();
         setDaemon(true);
     }
 
-    @Override
     public void run()
     {
-        try
-        {
-            sleep(DELAY * SECOND);
-            Date currentDate = new Date();
-            StateUnit currentState = new StateUnit(date.format(currentDate), time.format(currentDate),
-                                                   warehouse.getOilCount(), warehouse.getGasCount(),
-                                                   warehouse.getFoodCount(),warehouse.getCarsCount(),
-                                                   parentPort.getQueueSize(), parentPort.getProcessedCount());
+        while (true) {
+            try {
+                sleep(DELAY * SECOND);
+                Date currentDate = new Date();
+                StateUnit currentState = new StateUnit(date.format(currentDate), time.format(currentDate),
+                        warehouse.getOilCount(), warehouse.getGasCount(),
+                        warehouse.getFoodCount(), warehouse.getCarsCount(),
+                        parentPort.getQueueSize(), parentPort.getProcessedCount());
 
-            if(statusLog.size() == LOG_SIZE) statusLog.remove(0);
+                if (statusLog.size() == LOG_SIZE) statusLog.remove(0);
 
-            statusLog.add(currentState);
-        }
-        catch (InterruptedException e)
-        {
-            // TODO: 18.04.2017 ...
+                statusLog.add(currentState);
+            } catch (InterruptedException e) {
+                // TODO: 18.04.2017 ...
+            }
         }
     }
 }

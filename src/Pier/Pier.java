@@ -105,6 +105,7 @@ public class Pier extends Thread
                     parentPort.getController().setPierProgress(myIndex, 1);
                     sleep(10*STEEP_TIME);
                 }
+                parentPort.incrementProcessedCount();
                 return;
             }
         }
@@ -124,6 +125,7 @@ public class Pier extends Thread
         }
         parentPort.getController().setPierProgress(myIndex, 0.);
         System.out.println(getName() + " : Completed : " + ship.getName() + " , " + ship.getCargo() + " , " + ship.getCount() + " , " + ship.isLoadRequest());
+        parentPort.incrementProcessedCount();
         state = PierState.WAITING;
     }
 

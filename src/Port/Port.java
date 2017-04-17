@@ -25,10 +25,10 @@ public class Port
     private volatile Warehouse warehouse;
     private volatile ArrayBlockingQueue<Ship> shipRequests;
     private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
+    private volatile ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
 
     private ShipGenerator shipGenerator;
-
-    private ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
+    private StatusLog     statusLogThread;
 
     private Pier pier[];
 
@@ -50,6 +50,7 @@ public class Port
         shipRequestsList.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
+        statusLogThread = new StatusLog(this);
 
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
@@ -67,6 +68,7 @@ public class Port
     {
         return shipRequestsList;
     }
+
 
     public ObservableList<StateUnit> getStatusLog()
     {
@@ -113,6 +115,7 @@ public class Port
                 pier[i].start();
             }
             shipGenerator.start();
+            statusLogThread.start();
             processing = true;
         }
     }
