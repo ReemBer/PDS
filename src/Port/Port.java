@@ -55,7 +55,7 @@ public class Port
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
             pier[i] = new Pier(this, i);
-            pier[i].setName("PIER " + (i + 1));
+            pier[i].setDaemon(true);
         }
     }
 
@@ -162,6 +162,16 @@ public class Port
         {
             pier[i].stop();
         }
+    }
+
+    public synchronized void suspendGenerator()
+    {
+        shipGenerator.suspend();
+    }
+
+    public synchronized void resumeGenerator()
+    {
+        shipGenerator.resume();
     }
 
     /**
