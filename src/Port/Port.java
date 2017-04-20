@@ -124,6 +124,16 @@ public class Port
         }
     }
 
+    public synchronized void suspendGenerator()
+    {
+        shipGenerator.suspend();
+    }
+
+    public synchronized void resumeGenerator()
+    {
+        shipGenerator.resume();
+    }
+
     /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
