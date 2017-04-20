@@ -79,30 +79,34 @@
             <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
-            <rowConstraints>
-                <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="20.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                <RowConstraints />
-            </rowConstraints>
              <children>
-                <FlowPane alignment="CENTER" GridPane.rowIndex="2">
+                <FlowPane alignment="CENTER" GridPane.columnIndex="0">
                    <children>
-                         <Button prefHeight="25.0" prefWidth="100.0" text="Start" />
+                         <Button onAction="#onStartClicked" prefHeight="25.0" prefWidth="100.0" text="Start" />
                    </children>
                 </FlowPane>
-                <FlowPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <FlowPane alignment="CENTER" GridPane.columnIndex="1">
                    <children>
-                         <Button alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="Stop" />
+                         <Button alignment="CENTER" onAction="#onStopClicked" prefHeight="25.0" prefWidth="100.0" text="Stop" />
                    </children>
                 </FlowPane>
-                <FlowPane alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <FlowPane alignment="CENTER" GridPane.columnIndex="2">
                    <children>
-                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="manual add" />
+                         <Button fx:id="sus_res" mnemonicParsing="false" onAction="#onSuspendClicked" prefHeight="25.0" prefWidth="100.0" text="Suspend" />
                    </children>
                 </FlowPane>
+               <FlowPane alignment="CENTER" GridPane.columnIndex="3">
+                  <children>
+                     <Button mnemonicParsing="false" text="manual add" />
+                  </children>
+               </FlowPane>
              </children>
+            <rowConstraints>
+               <RowConstraints />
+            </rowConstraints>
           </GridPane>
       </FlowPane>
       <HBox>

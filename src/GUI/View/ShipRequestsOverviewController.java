@@ -19,7 +19,8 @@ import java.util.Observable;
  * @author name  : Tarasevich vladislav
  * @author gmail : tarasevich.vlad.97@gmail.com
  */
-public class ShipRequestsOverviewController {
+public class ShipRequestsOverviewController
+{
     @FXML
     private ProgressBar pierProgress1 = new ProgressBar();
     @FXML
@@ -76,6 +77,38 @@ public class ShipRequestsOverviewController {
     @FXML
     private TableColumn<StateUnit, Integer> processedShipsColumn;
 
+    @FXML
+    private Button sus_res = new Button("Suspend");;
+
+    private boolean suspended = false;
+
+    @FXML
+    public void onStartClicked()
+    {
+        mainProgramObject.getStarted();
+    }
+    @FXML
+    public void onSuspendClicked()
+    {
+        if(!suspended)
+        {
+            mainProgramObject.suspendWorking();
+            sus_res.setText("Resume");
+            suspended = true;
+        }
+        else
+        {
+            mainProgramObject.resumeWorking();
+            sus_res.setText("Suspend");
+            suspended = false;
+        }
+
+    }
+    @FXML
+    public void onStopClicked()
+    {
+        mainProgramObject.stopWorking();
+    }
 
     private Manager mainProgramObject;
 
@@ -87,7 +120,6 @@ public class ShipRequestsOverviewController {
     @FXML
     private void initialize()
     {
-        mainProgramObject.getStarted();
         setShipRequestTable();
         setStateLogTable();
 
