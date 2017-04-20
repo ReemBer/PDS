@@ -41,6 +41,7 @@ public class Port
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
             pier[i] = new Pier(this);
+            pier[i].setDaemon(true);
         }
     }
 
