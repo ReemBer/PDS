@@ -50,7 +50,7 @@ public class Port
         shipRequestsList.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
-        statusLogThread = new StatusLog(this);
+        shipGenerator.setDaemon(true);
 
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
