@@ -75,4 +75,14 @@ public class Manager
     {
         return port[indexOfCurrentPort].getShipRequestsData();
     }
+
+    public void suspendGenerator()
+    {
+        port[indexOfCurrentPort].suspendGenerator();
+    }
+
+    public void resumeGenerator()
+    {
+        port[indexOfCurrentPort].resumeGenerator();
+    }
 }
