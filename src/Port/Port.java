@@ -19,6 +19,8 @@ public class Port
 
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
+    private ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
+    private ObservableList<State> statusLog = FXCollections.observableArrayList();
     private Pier pier[];
     private ShipGenerator shipGenerator;
 
@@ -32,20 +34,26 @@ public class Port
 
         warehouse  = new Warehouse();
         shipRequests = new ArrayBlockingQueue<Ship>(QUEUE_SIZE);
+        shipRequestsList.addAll(shipRequests);
         pier = new Pier[COUNT_OF_PIERS];
         shipGenerator = new ShipGenerator(this);
+        shipGenerator.setDaemon(true);
 
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
             pier[i] = new Pier(this);
+            pier[i].setDaemon(true);
         }
     }
 
     public ObservableList<Ship> getShipRequestsData()
     {
-        ObservableList<Ship> result = FXCollections.observableArrayList();
-        result.addAll(shipRequests);
-        return result;
+        return shipRequestsList;
+    }
+
+    public ObservableList<State> getStatusLog()
+    {
+        return statusLog;
     }
 
     /**
@@ -64,11 +72,11 @@ public class Port
     {
         if(!processing)
         {
-            shipGenerator.start();
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].start();
             }
+            shipGenerator.start();
             processing = true;
         }
     }
@@ -106,6 +114,28 @@ public class Port
     }
 
     /**
+     * Used for stop processing
+     */
+    public synchronized void stopProcess()
+    {
+        shipGenerator.stop();
+        for(int i = 0; i < COUNT_OF_PIERS; ++i)
+        {
+            pier[i].stop();
+        }
+    }
+
+    public synchronized void suspendGenerator()
+    {
+        shipGenerator.suspend();
+    }
+
+    public synchronized void resumeGenerator()
+    {
+        shipGenerator.resume();
+    }
+
+    /**
      * This method used to trying to take some cargo from the warehouse
      * @param cargo type of cargo, needed to take
      * @param count count of type of cargo, needed to take
@@ -133,7 +163,11 @@ public class Port
      */
     public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
-        return shipRequests.take();
+        // Данная расстановка необходима для того, чтобы потоки
+        // Не пытались вытащить из ObservableList раньше, чем из очереди.
+        Ship result = shipRequests.take();
+        shipRequestsList.remove(0);
+        return result;
     }
 
     /**
@@ -143,6 +177,7 @@ public class Port
      */
     public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
+        shipRequestsList.add(currentShip);
         shipRequests.put(currentShip);
     }
 }
