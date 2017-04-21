@@ -79,9 +79,12 @@ public class StatusLog extends Thread
                 {
                     try
                     {
-                        writer = new FileWriter(file.getAbsolutePath(), true);
-                        writer.write(currentState.getFulLog());
-                        writer.close();
+                        synchronized (this)
+                        {
+                            writer = new FileWriter(file.getAbsolutePath(), true);
+                            writer.write(currentState.getFulLog() + '\n');
+                            writer.close();
+                        }
                     }
                     catch(IOException e)
                     {
