@@ -139,4 +139,10 @@ public class StateUnit
     public void setWaitingShips(int waitingShips) {
         this.waitingShips.set(waitingShips);
     }
+
+    public String getFulLog()
+    {
+        return date.get() + " " + time.get() + " OIL = " + oilCount.get() + " GAS = " + gasCount.get() +
+               " FOOD = " + foodCount.get() + " CARS = " + carsCount.get();
+    }
 }

@@ -2,6 +2,8 @@ package Port;
 
 import javafx.collections.ObservableList;
 
+import java.io.*;
+import java.nio.Buffer;
 import java.nio.file.Watchable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,8 @@ import java.util.Date;
  */
 public class StatusLog extends Thread
 {
+    private final String fileName = "Warehouse logs";
+
     private final int LOG_SIZE = 100;
     private final int DELAY    = 5;
     private final int SECOND   = 1000;
@@ -24,6 +28,8 @@ public class StatusLog extends Thread
     private Port parentPort;
     private ObservableList<StateUnit> statusLog;
     private Warehouse warehouse;
+
+    private boolean fileEnable;
 
     public StatusLog(Port parentPort)
     {
@@ -38,22 +44,58 @@ public class StatusLog extends Thread
     @Override
     public void run()
     {
+
+        File file = new File(fileName);
+        PrintWriter writer;
         try
         {
-            sleep(DELAY * SECOND);
-            Date currentDate = new Date();
-            StateUnit currentState = new StateUnit(date.format(currentDate), time.format(currentDate),
-                                                   warehouse.getOilCount(), warehouse.getGasCount(),
-                                                   warehouse.getFoodCount(),warehouse.getCarsCount(),
-                                                   parentPort.getQueueSize(), parentPort.getProcessedCount());
 
-            if(statusLog.size() == LOG_SIZE) statusLog.remove(0);
-
-            statusLog.add(currentState);
+            if (!file.exists())
+            {
+                file.createNewFile();
+            }
+            fileEnable = true;
         }
-        catch (InterruptedException e)
+        catch (IOException e)
         {
-            // TODO: 18.04.2017 ...
+            fileEnable = false;
+            writer = null;
+            // TODO: 21.04.2017
+        }
+
+        while (true)
+        {
+            try
+            {
+                sleep(DELAY * SECOND);
+                Date currentDate = new Date();
+                StateUnit currentState = new StateUnit(date.format(currentDate), time.format(currentDate),
+                                                       warehouse.getOilCount(), warehouse.getGasCount(),
+                                                       warehouse.getFoodCount(), warehouse.getCarsCount(),
+                                                       parentPort.getQueueSize(), parentPort.getProcessedCount());
+
+                if (statusLog.size() == LOG_SIZE) statusLog.remove(0);
+
+                if(fileEnable)
+                {
+                    try
+                    {
+                        writer = new PrintWriter(file.getAbsoluteFile());
+                        writer.println(currentState.getFulLog());
+                        writer.close();
+                    }
+                    catch(IOException e)
+                    {
+                        // TODO: 21.04.2017 ...
+                    }
+                }
+
+                statusLog.add(currentState);
+            }
+            catch (InterruptedException e)
+            {
+                // TODO: 18.04.2017 ...
+            }
         }
     }
 }
