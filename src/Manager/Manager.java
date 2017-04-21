@@ -1,8 +1,7 @@
 package Manager;
 
 import GUI.MainWindow;
-import GUI.View.ShipRequestsOverviewController;
-import Port.*;
+import Port.Port;
 import Ship.*;
 import javafx.collections.ObservableList;
 
@@ -22,16 +21,13 @@ public class Manager
     private Port port[];
     private int indexOfCurrentPort;
 
-    private ShipRequestsOverviewController controller;
-
-    public Manager(ShipRequestsOverviewController controller)
+    public Manager()
     {
-        this.controller = controller;
         indexOfCurrentPort = -1;
         port = new Port[COUNT_OF_PORTS];
         for(int i = 0; i < COUNT_OF_PORTS; ++i)
         {
-            port[i] = new Port(controller);
+            port[i] = new Port();
         }
     }
 
@@ -62,14 +58,9 @@ public class Manager
     /**
      * method, used to suspend process of current Port
      */
-    public void suspendWorking()
-    {
-       port[indexOfCurrentPort].suspendProcess();
-    }
-
     public void stopWorking()
     {
-        port[indexOfCurrentPort].stopProcess();
+       port[indexOfCurrentPort].suspendProcess();
     }
 
     /**
@@ -85,18 +76,13 @@ public class Manager
         return port[indexOfCurrentPort].getShipRequestsData();
     }
 
-    public ObservableList<StateUnit> getStatusLogData()
+    public void suspendGenerator()
     {
-        return port[indexOfCurrentPort].getStatusLog();
+        port[indexOfCurrentPort].suspendGenerator();
     }
 
-    public void setMainWindow(MainWindow mainWindow)
+    public void resumeGenerator()
     {
-        this.mainWindow = mainWindow;
-    }
-
-    public MainWindow getMainWindow()
-    {
-        return mainWindow;
+        port[indexOfCurrentPort].resumeGenerator();
     }
 }
