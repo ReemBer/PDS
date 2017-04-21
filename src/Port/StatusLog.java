@@ -45,7 +45,7 @@ public class StatusLog extends Thread
     {
 
         File file = new File(fileName);
-        PrintWriter writer;
+        FileWriter writer;
         try
         {
 
@@ -79,12 +79,13 @@ public class StatusLog extends Thread
                 {
                     try
                     {
-                        writer = new PrintWriter(file.getAbsoluteFile());
-                        writer.println(currentState.getFulLog());
+                        writer = new FileWriter(file.getAbsolutePath(), true);
+                        writer.write(currentState.getFulLog());
                         writer.close();
                     }
                     catch(IOException e)
                     {
+                        e.printStackTrace();
                         // TODO: 21.04.2017 ...
                     }
                 }
