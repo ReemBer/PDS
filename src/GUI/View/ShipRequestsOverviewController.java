@@ -79,13 +79,29 @@ public class ShipRequestsOverviewController
 
     @FXML
     private Button sus_res = new Button("Suspend");;
+    @FXML
+    private Button start_stop = new Button("Start");
+    @FXML
+    private Button generator = new Button("Suspend Generator");
 
     private boolean suspended = false;
+    private boolean started   = false;
+    private boolean genSuspended = false;
 
     @FXML
     public void onStartClicked()
     {
-        mainProgramObject.getStarted();
+        if(!started)
+        {
+            mainProgramObject.getStarted();
+            start_stop.setText("Stop");
+            started = true;
+        }
+        else
+        {
+            mainProgramObject.stopWorking();
+            started = false;
+        }
     }
     @FXML
     public void onSuspendClicked()
@@ -105,9 +121,20 @@ public class ShipRequestsOverviewController
 
     }
     @FXML
-    public void onStopClicked()
+    public void onGeneratorClicked()
     {
-        mainProgramObject.stopWorking();
+        if(!genSuspended)
+        {
+            mainProgramObject.suspendGenerator();
+            generator.setText("Resume Generator");
+            genSuspended = true;
+        }
+        else
+        {
+            mainProgramObject.resumeGenerator();
+            generator.setText("Suspend Generator");
+            genSuspended = false;
+        }
     }
 
     private Manager mainProgramObject;
