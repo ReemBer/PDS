@@ -110,12 +110,14 @@ public class ShipRequestsOverviewController
         {
             mainProgramObject.suspendWorking();
             sus_res.setText("Resume");
+            generator.setText("Resume Generator");
             suspended = true;
         }
         else
         {
             mainProgramObject.resumeWorking();
             sus_res.setText("Suspend");
+            generator.setText("Suspend Generator");
             suspended = false;
         }
 
