@@ -60,9 +60,13 @@ public class Manager
      */
     public void stopWorking()
     {
-       port[indexOfCurrentPort].suspendProcess();
+       port[indexOfCurrentPort].stopProcess();
     }
 
+    public void suspendWorking()
+    {
+        port[indexOfCurrentPort].suspendProcess();
+    }
     /**
      * method, used to resume process of current Port
      */
