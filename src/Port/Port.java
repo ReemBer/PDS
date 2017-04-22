@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
@@ -16,6 +17,8 @@ public class Port
 {
     private final int COUNT_OF_PIERS =  5;
     private final int QUEUE_SIZE     = 20;
+
+    private final Semaphore semaphore = new Semaphore(1);
 
     private Warehouse warehouse;
     private ArrayBlockingQueue<Ship> shipRequests;
@@ -163,10 +166,10 @@ public class Port
      */
     public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
-        // Данная расстановка необходима для того, чтобы потоки
-        // Не пытались вытащить из ObservableList раньше, чем из очереди.
         Ship result = shipRequests.take();
+        semaphore.acquire();
         shipRequestsList.remove(0);
+        semaphore.release();
         return result;
     }
 
@@ -175,9 +178,11 @@ public class Port
      * @param currentShip putting to the queue of requests.
      * @throws InterruptedException
      */
-    public synchronized void putCurrentRequest(Ship currentShip) throws InterruptedException
+    public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
-        shipRequestsList.add(currentShip);
         shipRequests.put(currentShip);
+        semaphore.acquire();
+        shipRequestsList.add(currentShip);
+        semaphore.release();
     }
 }
