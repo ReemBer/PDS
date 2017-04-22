@@ -143,6 +143,7 @@ public class StateUnit
     public String getFulLog()
     {
         return date.get() + " " + time.get() + " OIL = " + oilCount.get() + " GAS = " + gasCount.get() +
-               " FOOD = " + foodCount.get() + " CARS = " + carsCount.get();
+               " FOOD = " + foodCount.get() + " CARS = " + carsCount.get() + " WAITING = " + waitingShips.get() +
+                " PROCESSED = " + processedShips.get();
     }
 }
