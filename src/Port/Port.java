@@ -7,27 +7,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
  * This class used to store the state of the warehouse and work with ships through the piers
- * @version 1.1
+ * @version 1.2
  */
 public class Port
 {
     private final int COUNT_OF_PIERS = 5;
     private final int QUEUE_SIZE     = 12;
 
+    private final Object shipRequestListLock = new Object();
     private final Object warehouseLock = new Object();
-    private final Object takeRequestLock = new Object();
 
     private volatile Warehouse warehouse;
     private volatile ArrayBlockingQueue<Ship> shipRequests;
     private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
     private volatile ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
-
-    private final Semaphore semaphore = new Semaphore(1);
 
     private ShipGenerator shipGenerator;
     private StatusLog     statusLogThread;
@@ -38,8 +35,9 @@ public class Port
 
     private ShipRequestsOverviewController controller;
 
-    private boolean processing;
-    private boolean suspended;
+    private volatile boolean processing;
+    private volatile boolean suspended;
+    private volatile boolean generatorSuspended;
 
     public Port(ShipRequestsOverviewController controller)
     {
@@ -120,6 +118,7 @@ public class Port
                 pier[i].start();
             }
             shipGenerator.start();
+            generatorSuspended = false;
             statusLogThread.start();
             processing = true;
         }
@@ -133,7 +132,11 @@ public class Port
         if(processing && !suspended)
         {
             suspended = true;
-            shipGenerator.suspend();
+            if(!generatorSuspended)
+            {
+                shipGenerator.suspend();
+                generatorSuspended = true;
+            }
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].suspend();
@@ -149,7 +152,11 @@ public class Port
         if(processing && suspended)
         {
             suspended = false;
-            shipGenerator.resume();
+            if(generatorSuspended)
+            {
+                shipGenerator.resume();
+                generatorSuspended = false;
+            }
             for (int i = 0; i < COUNT_OF_PIERS; ++i)
             {
                 pier[i].resume();
@@ -171,12 +178,20 @@ public class Port
 
     public synchronized void suspendGenerator()
     {
-        shipGenerator.suspend();
+        if(!generatorSuspended)
+        {
+            shipGenerator.suspend();
+            generatorSuspended = true;
+        }
     }
 
     public synchronized void resumeGenerator()
     {
-        shipGenerator.resume();
+        if(generatorSuspended)
+        {
+            shipGenerator.resume();
+            generatorSuspended = false;
+        }
     }
 
     /**
@@ -187,7 +202,10 @@ public class Port
      */
     public synchronized boolean takeCargo(Cargo cargo, int count)
     {
-        return warehouse.takeCargo(cargo, count);
+        synchronized (warehouseLock)
+        {
+            return warehouse.takeCargo(cargo, count);
+        }
     }
 
     /**
@@ -195,9 +213,12 @@ public class Port
      * @param cargo type of cargo, wanted to put
      * @param count count of type of cargo, wanted to put
      */
-    public synchronized void putCargo(Cargo cargo, int count)
+    public void putCargo(Cargo cargo, int count)
     {
-        warehouse.putCargo(cargo, count);
+        synchronized (warehouseLock)
+        {
+            warehouse.putCargo(cargo, count);
+        }
     }
 
     /**
@@ -205,12 +226,13 @@ public class Port
      * @return first ship Request in the queue of ship requests.
      * @throws InterruptedException
      */
-    public synchronized Ship takeCurrentRequest() throws InterruptedException
+    public Ship takeCurrentRequest() throws InterruptedException
     {
         Ship result = shipRequests.take();
-        semaphore.acquire();
-        shipRequestsList.remove(0);
-        semaphore.release();
+        synchronized (shipRequestListLock)
+        {
+            shipRequestsList.setAll(shipRequests);
+        }
         return result;
     }
 
@@ -222,8 +244,9 @@ public class Port
     public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
-        semaphore.acquire();
-        shipRequestsList.add(currentShip);
-        semaphore.release();
+        synchronized (shipRequestListLock)
+        {
+            shipRequestsList.setAll(shipRequests);
+        }
     }
 }
