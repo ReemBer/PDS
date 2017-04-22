@@ -112,6 +112,7 @@ public class ShipRequestsOverviewController
             sus_res.setText("Resume");
             generator.setText("Resume Generator");
             suspended = true;
+            genSuspended = true;
         }
         else
         {
@@ -119,6 +120,7 @@ public class ShipRequestsOverviewController
             sus_res.setText("Suspend");
             generator.setText("Suspend Generator");
             suspended = false;
+            genSuspended = false;
         }
 
     }
