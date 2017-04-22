@@ -16,7 +16,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class Port
 {
     private final int COUNT_OF_PIERS = 5;
-    private final int QUEUE_SIZE     = 12;
+    private final int QUEUE_SIZE     = 15;
 
     private final Object shipRequestListLock = new Object();
     private final Object warehouseLock = new Object();
