@@ -100,9 +100,9 @@ public class Pier extends Thread
             {
                 for(int i = 0; i < 5; ++i)
                 {
-                    parentPort.getController().setPierProgress(myIndex, 0);
-                    sleep(10*STEEP_TIME);
                     parentPort.getController().setPierProgress(myIndex, 1);
+                    sleep(10*STEEP_TIME);
+                    parentPort.getController().setPierProgress(myIndex, 0);
                     sleep(10*STEEP_TIME);
                 }
                 parentPort.incrementProcessedCount();

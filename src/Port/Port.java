@@ -20,6 +20,7 @@ public class Port
 
     private final Object shipRequestListLock = new Object();
     private final Object warehouseLock = new Object();
+    private final Object incrementLock = new Object();
 
     private volatile Warehouse warehouse;
     private volatile ArrayBlockingQueue<Ship> shipRequests;
@@ -89,7 +90,10 @@ public class Port
 
     public void incrementProcessedCount()
     {
-        ++processedCount;
+        synchronized (incrementLock)
+        {
+            ++processedCount;
+        }
     }
 
     public int getProcessedCount()
