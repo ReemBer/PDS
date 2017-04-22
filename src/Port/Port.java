@@ -3,16 +3,16 @@ package Port;
 import GUI.View.ShipRequestsOverviewController;
 import Pier.Pier;
 import Ship.*;
-import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
  * This class used to store the state of the warehouse and work with ships through the piers
- * @version 1.0
+ * @version 1.1
  */
 public class Port
 {
@@ -26,6 +26,8 @@ public class Port
     private volatile ArrayBlockingQueue<Ship> shipRequests;
     private volatile ObservableList<Ship> shipRequestsList = FXCollections.observableArrayList();
     private volatile ObservableList<StateUnit>   statusLog = FXCollections.observableArrayList();
+
+    private final Semaphore semaphore = new Semaphore(1);
 
     private ShipGenerator shipGenerator;
     private StatusLog     statusLogThread;
@@ -203,12 +205,13 @@ public class Port
      * @return first ship Request in the queue of ship requests.
      * @throws InterruptedException
      */
-    public Ship takeCurrentRequest() throws InterruptedException
+    public synchronized Ship takeCurrentRequest() throws InterruptedException
     {
-        synchronized (takeRequestLock)
-        {
-            return shipRequests.take();
-        }
+        Ship result = shipRequests.take();
+        semaphore.acquire();
+        shipRequestsList.remove(0);
+        semaphore.release();
+        return result;
     }
 
     /**
@@ -219,6 +222,8 @@ public class Port
     public void putCurrentRequest(Ship currentShip) throws InterruptedException
     {
         shipRequests.put(currentShip);
-        shipRequestsList.setAll(shipRequests);
+        semaphore.acquire();
+        shipRequestsList.add(currentShip);
+        semaphore.release();
     }
 }
