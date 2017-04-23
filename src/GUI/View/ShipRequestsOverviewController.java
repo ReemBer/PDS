@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import org.apache.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import javax.swing.plaf.nimbus.State;
 import java.awt.font.ImageGraphicAttribute;
@@ -21,6 +23,8 @@ import java.util.Observable;
  */
 public class ShipRequestsOverviewController
 {
+    private static final Logger logger = Logger.getLogger(ShipRequestsOverviewController.class);
+
     @FXML
     private ProgressBar pierProgress1 = new ProgressBar();
     @FXML
@@ -93,12 +97,14 @@ public class ShipRequestsOverviewController
     {
         if(!started)
         {
+            logger.info("запрос на начало работы порта");
             mainProgramObject.getStarted();
             start_stop.setText("Stop");
             started = true;
         }
         else
         {
+            logger.info("Запрос на завершение работы порта");
             mainProgramObject.stopWorking();
             started = false;
         }
@@ -108,6 +114,7 @@ public class ShipRequestsOverviewController
     {
         if(!suspended)
         {
+            logger.info("Запрос на приостановление работы порта.");
             mainProgramObject.suspendWorking();
             sus_res.setText("Resume");
             generator.setText("Resume Generator");
@@ -116,6 +123,7 @@ public class ShipRequestsOverviewController
         }
         else
         {
+            logger.info("Запрос на возобновление работы порта.");
             mainProgramObject.resumeWorking();
             sus_res.setText("Suspend");
             generator.setText("Suspend Generator");
@@ -129,12 +137,14 @@ public class ShipRequestsOverviewController
     {
         if(!genSuspended)
         {
+            logger.info("Запрос на приостановление работы генератора.");
             mainProgramObject.suspendGenerator();
             generator.setText("Resume Generator");
             genSuspended = true;
         }
         else
         {
+            logger.info("Запрос на возобновление работы генератора.");
             mainProgramObject.resumeGenerator();
             generator.setText("Suspend Generator");
             genSuspended = false;
