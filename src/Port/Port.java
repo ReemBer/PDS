@@ -180,10 +180,10 @@ public class Port
      */
     public synchronized void stopProcess()
     {
-        shipGenerator.stop();
+        shipGenerator.interrupt();
         for(int i = 0; i < COUNT_OF_PIERS; ++i)
         {
-            pier[i].stop();
+            pier[i].interrupt();
         }
         logger.info("Работа порта завершена.");
     }
