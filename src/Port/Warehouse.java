@@ -1,6 +1,7 @@
 package Port;
 
 import Ship.Cargo;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 
@@ -17,6 +18,8 @@ public class Warehouse
 
     private String pathToGoods = DEFAULT_PATH_TO_GOODS;
 
+    private static final Logger logger = Logger.getLogger(Warehouse.class);
+
     private int oilCount;
     private int gasCount;
     private int foodCount;
@@ -27,10 +30,13 @@ public class Warehouse
         try
         {
             readCountsOfGoods();
+            logger.info("Считывание начального состояния из файла произведено успешно");
         }
         catch (FileNotFoundException ex)
         {
-            // TODO: 10.04.2017 добавить логи вот здеся
+            logger.error("Файл с начальным состоянием не найден");
+            logger.info("Используется нулевое начальное состояние");
+
             oilCount = gasCount = foodCount = carsCount = 0;
         }
     }
@@ -179,7 +185,9 @@ public class Warehouse
         }
         catch (IOException ex)
         {
-            // TODO: 10.04.2017 Добавить логи ошибки вот здеся
+            logger.error("Неверный формат файла начального состояния.");
+            logger.info("Используется нулевое начальное состояние.");
+
             oilCount = gasCount = foodCount = carsCount = 0;
         }
     }
