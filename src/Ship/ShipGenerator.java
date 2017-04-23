@@ -183,6 +183,7 @@ public class ShipGenerator extends Thread
         }
         catch (IOException e)
         {
+            logger.fatal("Ошибка считывания имён из файла");
             throw new RuntimeException(e);
         }
 
