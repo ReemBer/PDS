@@ -1,6 +1,7 @@
 package Port;
 
 import javafx.collections.ObservableList;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.nio.Buffer;
@@ -17,6 +18,8 @@ import java.util.Date;
 public class StatusLog extends Thread
 {
     private final String fileName = "Warehouse logs";
+
+    private static final Logger logger = Logger.getLogger(StatusLog.class);
 
     private final int LOG_SIZE = 100;
     private final int DELAY    = 5;
@@ -48,7 +51,6 @@ public class StatusLog extends Thread
         FileWriter writer;
         try
         {
-
             if (!file.exists())
             {
                 file.createNewFile();
@@ -59,7 +61,8 @@ public class StatusLog extends Thread
         {
             fileEnable = false;
             writer = null;
-            // TODO: 21.04.2017
+
+            logger.error("Ошибка файла " + fileName + ".");
         }
 
         while (true)
@@ -89,7 +92,7 @@ public class StatusLog extends Thread
                     catch(IOException e)
                     {
                         e.printStackTrace();
-                        // TODO: 21.04.2017 ...
+                        logger.error("Ошика записи состояния склада в файл.");
                     }
                 }
 
@@ -97,7 +100,7 @@ public class StatusLog extends Thread
             }
             catch (InterruptedException e)
             {
-                // TODO: 18.04.2017 ...
+                logger.fatal("Ошибка работы потока.");
             }
         }
     }

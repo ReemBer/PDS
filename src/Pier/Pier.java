@@ -2,6 +2,9 @@ package Pier;
 
 import Port.Port;
 import Ship.Ship;
+import org.apache.log4j.Logger;
+
+
 
 /**
  * Created by Tarasevich Vladislav on 09.04.2017.
@@ -18,6 +21,8 @@ public class Pier extends Thread
 
     private Ship  ship;
     private TimeCost timeCost;
+
+    private static final Logger logger = Logger.getLogger(Pier.class);
 
     private int myIndex;
 
@@ -78,8 +83,7 @@ public class Pier extends Thread
         }
         catch (InterruptedException ex)
         {
-            // TODO: 10.04.2017 Придумать обработку такого рода исключений
-            // TODO: 10.04.2017 Добавить логи
+            logger.fatal("Работа " + getName() + " Прервана исключением InterruptedException.");
         }
     }
 
@@ -98,6 +102,8 @@ public class Pier extends Thread
             state = PierState.LOADING;
             if(!parentPort.takeCargo(ship.getCargo(), ship.getCount()))
             {
+                logger.error(getName() + " : " + ship.getName() + " : Недостаточное количество товара " +
+                        ship.getCargo() + " на складе (нужно " + ship.getCount() + " едениц).");
                 for(int i = 0; i < 5; ++i)
                 {
                     parentPort.getController().setPierProgress(myIndex, 1);
@@ -126,6 +132,9 @@ public class Pier extends Thread
         parentPort.getController().setPierProgress(myIndex, 0.);
         System.out.println(getName() + " : Completed : " + ship.getName() + " , " + ship.getCargo() + " , " + ship.getCount() + " , " + ship.isLoadRequest());
         parentPort.incrementProcessedCount();
+        logger.info(getName() + " : " + ship.getName() + " : Запрос обработан успешно (" + (ship.isLoadRequest() ? '-' : '+') +
+                    ship.getCount() + " " + ship.getCargo() + ")");
+
         state = PierState.WAITING;
     }
 

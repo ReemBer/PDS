@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import sun.applet.Main;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ public class MainWindow extends Application
     private FXMLLoader loader;
     private ShipRequestsOverviewController controller;
     private Manager mainProgramObject;
+
+    private static final Logger logger = Logger.getLogger(MainWindow.class);
 
     @Override
     public void start(Stage primaryStage)
@@ -55,9 +58,11 @@ public class MainWindow extends Application
                 controller.setPierProgress(i, 0.5);
             }
             primaryStage.show();
+            logger.info("Начало работы ГПИ.");
         }
         catch (IOException e)
         {
+            logger.info("Ошибка загрузки файла описания окна приложения (fxml).");
             e.printStackTrace();
         }
     }

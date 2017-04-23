@@ -1,6 +1,7 @@
 package Ship;
 
 import Port.Port;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.Random;
@@ -25,6 +26,8 @@ public class ShipGenerator extends Thread
     private final int CARGO_LOWER_BOUND = 1;
     private final int SLEEP_TIME = 1000;
 
+    private static final Logger logger = Logger.getLogger(ShipGenerator.class);
+
     private Port parentPort;
 
     {
@@ -42,10 +45,14 @@ public class ShipGenerator extends Thread
             randomizer = new Random(0L);
             Vector<String> names = readNames(DEFAULT_SHIP_NAMES_FILE);
             shipNames = names.toArray(new String[names.size()]);
+
+            logger.info("Используются имена кораблей из файла.");
         }
         catch (FileNotFoundException ex)
         {
-            // TODO: 11.04.2017 Добавить логи тут
+            logger.error("Файл с именами не найден");
+            logger.info("Используются стандартные имена кораблей");
+
             shipNames = DEFAULT_SHIP_NAMES;
         }
     }
@@ -58,10 +65,14 @@ public class ShipGenerator extends Thread
             randomizer = new Random(0L);
             Vector<String> names = readNames(fileName);
             shipNames = names.toArray(new String[names.size()]);
+
+            logger.info("Используются имена кораблей из файла.");
         }
         catch (FileNotFoundException ex)
         {
-            // TODO: 11.04.2017 Добавить логи тут
+            logger.error("Файл с именами не найден");
+            logger.info("Используются стандартные имена кораблей");
+
             shipNames = DEFAULT_SHIP_NAMES;
         }
     }
@@ -78,7 +89,7 @@ public class ShipGenerator extends Thread
             }
         } catch (InterruptedException ex)
         {
-            // TODO: 11.04.2017 придумать как обработать такого рода исключение
+            logger.fatal("Ошибка выполнения потока : InterruptedException.");
         }
     }
     
@@ -172,6 +183,7 @@ public class ShipGenerator extends Thread
         }
         catch (IOException e)
         {
+            logger.fatal("Ошибка считывания имён из файла");
             throw new RuntimeException(e);
         }
 

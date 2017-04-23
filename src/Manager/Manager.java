@@ -5,6 +5,7 @@ import GUI.View.ShipRequestsOverviewController;
 import Port.*;
 import Ship.*;
 import javafx.collections.ObservableList;
+import org.apache.log4j.Logger;
 
 /**
  * Created by Tarasevich Vladislav on 11.04.2017.
@@ -17,6 +18,8 @@ import javafx.collections.ObservableList;
 public class Manager
 {
     private final int COUNT_OF_PORTS = 3;
+
+    private static final Logger logger = Logger.getLogger(Manager.class);
 
     private MainWindow mainWindow;
     private Port port[];
@@ -45,6 +48,9 @@ public class Manager
         {
             port[i].suspendProcess();
         }
+
+        logger.info("Изменён индекс активного порта : " + index);
+
         indexOfCurrentPort = index;
     }
 
@@ -56,18 +62,19 @@ public class Manager
         port[indexOfCurrentPort].getStarted();
     }
 
+    public void suspendWorking()
+    {
+        port[indexOfCurrentPort].suspendProcess();
+    }
+
     /**
      * method, used to suspend process of current Port
      */
     public void stopWorking()
     {
-       port[indexOfCurrentPort].stopProcess();
+        port[indexOfCurrentPort].stopProcess();
     }
 
-    public void suspendWorking()
-    {
-        port[indexOfCurrentPort].suspendProcess();
-    }
     /**
      * method, used to resume process of current Port
      */

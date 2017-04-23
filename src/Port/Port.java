@@ -5,6 +5,7 @@ import Pier.Pier;
 import Ship.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.log4j.Logger;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -17,6 +18,8 @@ public class Port
 {
     private final int COUNT_OF_PIERS = 5;
     private final int QUEUE_SIZE     = 15;
+
+    private static final Logger logger = Logger.getLogger(Port.class);
 
     private final Object shipRequestListLock = new Object();
     private final Object warehouseLock = new Object();
@@ -125,6 +128,8 @@ public class Port
             generatorSuspended = false;
             statusLogThread.start();
             processing = true;
+
+            logger.info("Запуск рабботы порта.");
         }
     }
 
@@ -145,6 +150,7 @@ public class Port
             {
                 pier[i].suspend();
             }
+            logger.info("Работа порта приостановлена.");
         }
     }
 
@@ -165,6 +171,7 @@ public class Port
             {
                 pier[i].resume();
             }
+            logger.info("Работа порта возобновлена.");
         }
     }
 
@@ -178,6 +185,7 @@ public class Port
         {
             pier[i].stop();
         }
+        logger.info("Работа порта завершена.");
     }
 
     public synchronized void suspendGenerator()
@@ -186,6 +194,7 @@ public class Port
         {
             shipGenerator.suspend();
             generatorSuspended = true;
+            logger.info("Работа генератора запросов приостановлена.");
         }
     }
 
@@ -195,6 +204,8 @@ public class Port
         {
             shipGenerator.resume();
             generatorSuspended = false;
+
+            logger.info("Работа генератора запросов возобновлена.");
         }
     }
 
