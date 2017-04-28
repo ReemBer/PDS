@@ -18,6 +18,7 @@ import java.util.Date;
 public class StatusLog extends Thread
 {
     private final String fileName = "Warehouse logs";
+    private final String validFileName = "Goods.txt";
 
     private static final Logger logger = Logger.getLogger(StatusLog.class);
 
@@ -33,6 +34,7 @@ public class StatusLog extends Thread
     private Warehouse warehouse;
 
     private boolean fileEnable;
+    private boolean validStateFileEnable;
 
     public StatusLog(Port parentPort)
     {
@@ -51,6 +53,7 @@ public class StatusLog extends Thread
     {
 
         File file = new File(fileName);
+        File validFile = new File(validFileName);
         FileWriter writer;
         try
         {
@@ -65,7 +68,23 @@ public class StatusLog extends Thread
             fileEnable = false;
             writer = null;
 
-            logger.error("Ошибка файла " + fileName + ".");
+            logger.error("Ошибка создания файла " + fileName + ".");
+        }
+
+        try
+        {
+            if (!validFile.exists())
+            {
+                validFile.createNewFile();
+            }
+            validStateFileEnable = true;
+        }
+        catch (IOException e)
+        {
+            validStateFileEnable = false;
+            writer = null;
+
+            logger.error("Ошибка создания файла " + validFileName + ".");
         }
 
         while (true)
@@ -89,6 +108,24 @@ public class StatusLog extends Thread
                         {
                             writer = new FileWriter(file.getAbsolutePath(), true);
                             writer.write(currentState.getFulLog() + '\n');
+                            writer.close();
+                        }
+                    }
+                    catch(IOException e)
+                    {
+                        e.printStackTrace();
+                        logger.error("Ошика записи состояния склада в файл.");
+                    }
+                }
+
+                if(fileEnable)
+                {
+                    try
+                    {
+                        synchronized (this)
+                        {
+                            writer = new FileWriter(validFile.getAbsolutePath(), false);
+                            writer.write(currentState.getValidLog() + '\n');
                             writer.close();
                         }
                     }

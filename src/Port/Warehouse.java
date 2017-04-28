@@ -172,22 +172,22 @@ public class Warehouse
                 {
                     case "OIL":
                     {
-                        oilCount = Integer.getInteger(currentCount);
+                        oilCount = Integer.parseInt(currentCount);
                         break;
                     }
                     case "GAS":
                     {
-                        gasCount = Integer.getInteger(currentCount);
+                        gasCount = Integer.parseInt(currentCount);
                         break;
                     }
                     case "FOOD":
                     {
-                        foodCount = Integer.getInteger(currentCount);
+                        foodCount = Integer.parseInt(currentCount);
                         break;
                     }
                     case "CARS":
                     {
-                        carsCount = Integer.getInteger(currentCount);
+                        carsCount = Integer.parseInt(currentCount);
                         break;
                     }
                     default: throw new IOException();

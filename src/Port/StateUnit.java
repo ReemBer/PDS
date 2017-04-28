@@ -146,4 +146,10 @@ public class StateUnit
                " FOOD = " + foodCount.get() + " CARS = " + carsCount.get() + " WAITING = " + waitingShips.get() +
                 " PROCESSED = " + processedShips.get();
     }
+
+    public String getValidLog()
+    {
+        return "OIL\n" + oilCount.get() + "\nGAS\n" +  gasCount.get() + "\nFOOD\n" + foodCount.get() +
+               "\nCARS\n" + carsCount.get();
+    }
 }
