@@ -37,6 +37,9 @@ public class ShipGenerator extends Thread
     private String[] shipNames;
     private Random  randomizer;
 
+    /**
+     * @param parentPort The "port" class object for which queries are generated
+     */
     public ShipGenerator(Port parentPort)
     {
         try
@@ -57,6 +60,10 @@ public class ShipGenerator extends Thread
         }
     }
 
+    /**
+     * @param parentPort The "port" class object for which queries are generated
+     * @param fileName The name of the file that contains the list of ship names required for generation
+     */
     public ShipGenerator(Port parentPort, String fileName)
     {
         try
@@ -77,6 +84,9 @@ public class ShipGenerator extends Thread
         }
     }
 
+    /**
+     * In this streaming method, ship requests are generated
+     */
     @Override
     public void run()
     {
@@ -92,7 +102,11 @@ public class ShipGenerator extends Thread
             logger.fatal("Ошибка выполнения потока : InterruptedException.");
         }
     }
-    
+
+
+    /**
+     * @return random Ship Request
+     */
     private Ship generateNewShip()
     {
         return new Ship(getRandomName(), getRandomCargo(), getRandomCount(), getRandomRequest());

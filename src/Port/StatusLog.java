@@ -44,6 +44,9 @@ public class StatusLog extends Thread
         setDaemon(true);
     }
 
+    /**
+     * This method used to writing status of the Warehouse every five seconds
+     */
     public void run()
     {
 

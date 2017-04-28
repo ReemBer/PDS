@@ -49,6 +49,12 @@ public class Warehouse
         this.carsCount = carsCount;
     }
 
+    /**
+     * This method is used to trying to take cargo from the Warehouse
+     * @param cargo Type of cargo, which is necessary to take from the Warehouse
+     * @param count Count of cargo, which is necessary to take from the Warehouse
+     * @return true in case of successful taking of cargo from the Warehouse
+     */
     public synchronized boolean takeCargo(Cargo cargo, int count)
     {
         switch(cargo)
@@ -86,6 +92,11 @@ public class Warehouse
         return true;
     }
 
+    /**
+     * This method is used to trying to put cargo into the Warehouse
+     * @param cargo Type of cargo, which is want to put into the Warehouse
+     * @param count Count of cargo, which is want to put into the Warehouse
+     */
     public synchronized void putCargo(Cargo cargo, int count)
     {
         switch(cargo)
